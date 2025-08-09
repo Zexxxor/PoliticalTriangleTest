@@ -19,7 +19,7 @@ h1, h2 {
 .button {
     display: block !important;
     margin: 20px auto !important;      /* центрируем */
-    font-size: 30pt !important;
+    font-size: 30px !important;
     font-family: 'Montserrat', sans-serif !important;
     background-color: #2196F3 !important;
     color: #fff !important;
