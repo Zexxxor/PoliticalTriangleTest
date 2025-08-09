@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:400,700&display=swap" rel="stylesheet">
@@ -12,12 +13,21 @@
         text-align: center;
         font-family: 'Montserrat', sans-serif;
     }
-    /* Центровка кнопки */
+    /* Стиль кнопки */
     .start-button {
-        display: block;
-        margin: 20px auto;
+        display: block;                /* Чтобы margin auto сработал */
+        margin: 20px auto;              /* Центровка */
         font-size: 36pt;
         font-family: 'Montserrat', sans-serif;
+        background-color: #2196F3;      /* Голубой */
+        color: white;                   /* Белый текст */
+        border: none;                   /* Без рамки */
+        border-radius: 8px;              /* Скруглённые углы */
+        padding: 10px 30px;              /* Отступы внутри кнопки */
+        cursor: pointer;                 /* Курсор "рука" */
+    }
+    .start-button:hover {
+        background-color: #1976D2;       /* Чуть темнее при наведении */
     }
     /* Основной текст */
     body, p, a, button {
@@ -31,7 +41,6 @@
 <h1>9Axes</h1>
 <hr>
 <button class="button" onclick="location.href='instructions.html';" style="font-size:36pt;">Начать тест</button>
-<img src="values.png" class="center"></img>
 
 <h2>Что такое 9Axes?</h2>
     <p>9Axes, основанный на <a href="https://8values-ru.github.io/">8values</a>, — это политическая викторина, которая пытается присвоить проценты девяти различным политическим осям. Вам будут даны утверждения, по каждому из которых вы должны ответить своим мнением, от <b>Полностью согласен</b> до <b>Полностью не согласен</b>, каждый ответ будет слегка влиять на ваши значения по каждой оси. В конце викторины, ваши ответы будут сравниваться с максимально возможным для каждого значения, таким образом, давая вам процент. Отвечайте честно!</p>
@@ -65,6 +74,7 @@
 <p>Legal notice: The 8values project's license grants the rights to "modify, merge, publish, distribute" the software as long as "The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software." The included notice can be found <a href="LICENSE">here</a>. This project is released under the same license.</p>
 </body>
+
 
 
 
