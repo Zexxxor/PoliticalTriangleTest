@@ -1,163 +1,50 @@
-<!DOCTYPE html>
-<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>9Axes Test — Русская версия</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            padding: 20px 0;
-        }
-        h1 {
-            margin: 0;
-        }
-        main {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 24px;
-            margin: 10px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 4px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .question {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-        .progress {
-            height: 20px;
-            background: #ddd;
-            border-radius: 4px;
-            margin: 20px 0;
-        }
-        .progress-bar {
-            height: 100%;
-            background: #4CAF50;
-            width: 0%;
-            border-radius: 4px;
-        }
-        .result {
-            display: none;
-        }
-    </style>
+<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:400,700" rel="stylesheet">
+<link href='/style.css' rel='stylesheet' type='text/css'>
+<title>9Axes</title>
+<link rel="icon" type="x-icon" href="icon.png">
+<link rel="shortcut icon" type="x-icon" href="/icon.png">
+<meta charset="utf-8">
 </head>
 <body>
-<header>
-    <h1>9Axes — Политический тест</h1>
-    <p>Русская версия</p>
-</header>
-<main>
-    <div id="intro">
-        <h2>Добро пожаловать!</h2>
-        <p>Этот тест измеряет вашу позицию по 9 политическим осям.<br>
-           Отвечайте честно, выбирая степень согласия или несогласия.</p>
-        <button onclick="startTest()">Начать тест</button>
-    </div>
-    <div id="test" style="display:none;">
-        <div class="progress">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-        <div id="question-container">
-            <p class="question" id="question-text"></p>
-            <div>
-                <button onclick="answer(2)">Полностью согласен</button>
-                <button onclick="answer(1)">Согласен</button>
-                <button onclick="answer(0)">Нейтрально</button>
-                <button onclick="answer(-1)">Не согласен</button>
-                <button onclick="answer(-2)">Полностью не согласен</button>
-            </div>
-        </div>
-    </div>
-    <div id="result" class="result">
-        <h2>Ваш результат</h2>
-        <div id="result-text"></div>
-        <button onclick="restartTest()">Пройти ещё раз</button>
-    </div>
-</main>
 
-<script>
-let questions = [
-    { text: "Государство должно активно перераспределять богатство от богатых к бедным.", axis: "Равенство", value: 1 },
-    { text: "Частная собственность священна и неприкосновенна.", axis: "Равенство", value: -1 },
-    { text: "Свобода слова важнее защиты от оскорблений.", axis: "Свобода", value: 1 },
-    { text: "Некоторые виды высказываний должны быть запрещены законом.", axis: "Свобода", value: -1 },
-    { text: "Экономика должна быть максимально свободной от государственного регулирования.", axis: "Рынок", value: 1 },
-    { text: "Государство должно контролировать ключевые отрасли экономики.", axis: "Рынок", value: -1 }
-];
+<a href="/">English</a>
+<h1>9Axes</h1>
+<hr>
+<button class="button" onclick="location.href='instructions.html';" style="font-size:36pt;">Начать тест</button>
+<img src="values.png" class="center"></img>
 
-let currentQuestion = 0;
-let answers = [];
-
-function startTest() {
-    document.getElementById("intro").style.display = "none";
-    document.getElementById("test").style.display = "block";
-    showQuestion();
-}
-
-function showQuestion() {
-    let q = questions[currentQuestion];
-    document.getElementById("question-text").innerText = q.text;
-    let progress = ((currentQuestion) / questions.length) * 100;
-    document.getElementById("progress-bar").style.width = progress + "%";
-}
-
-function answer(score) {
-    answers.push({ question: questions[currentQuestion], score: score });
-    currentQuestion++;
-    if (currentQuestion < questions.length) {
-        showQuestion();
-    } else {
-        finishTest();
-    }
-}
-
-function finishTest() {
-    document.getElementById("test").style.display = "none";
-    document.getElementById("result").style.display = "block";
-
-    let resultText = "";
-    let axisScores = {};
-
-    answers.forEach(a => {
-        if (!axisScores[a.question.axis]) {
-            axisScores[a.question.axis] = 0;
-        }
-        axisScores[a.question.axis] += a.score * a.question.value;
-    });
-
-    for (let axis in axisScores) {
-        resultText += `<p><b>${axis}</b>: ${axisScores[axis]}</p>`;
-    }
-
-    document.getElementById("result-text").innerHTML = resultText;
-}
-
-function restartTest() {
-    currentQuestion = 0;
-    answers = [];
-    document.getElementById("result").style.display = "none";
-    document.getElementById("intro").style.display = "block";
-}
-</script>
+<h2>Что такое 9Axes?</h2>
+    <p>9Axes, основанный на <a href="https://8values-ru.github.io/">8values</a>, — это политическая викторина, которая пытается присвоить проценты девяти различным политическим осям. Вам будут даны утверждения, по каждому из которых вы должны ответить своим мнением, от <b>Полностью согласен</b> до <b>Полностью не согласен</b>, каждый ответ будет слегка влиять на ваши значения по каждой оси. В конце викторины, ваши ответы будут сравниваться с максимально возможным для каждого значения, таким образом, давая вам процент. Отвечайте честно!</p>
+    <p>Существует две версии викторины: полная версия с 24 вопросами на ось, в общей сложности 216 вопросов, и короткая версия с 5 вопросами на ось, в общей сложности 45 вопросов. Не стесняйтесь выбирать любую.</p>
+<h2>Что за девять осей?</h2>
+    <p>Есть девять независимых осей, и каждая имеет две противоположные ценности, присвоенные им. Вот они:</p>
+    <p class="value-description"><b style="color:#fbc02d;">Федералист vs Унитарист</b><br/>
+        Федералист склонен предпочитать сильное местное правительство, Унитарист склонен предпочитать сильное национальное правительство.</p>
+    <p class="value-description"><b style="color:#00796b;">Демократ vs. Авторитарист</b><br/>
+        Демократ склонен предпочитать выборы и популярное мнение, Авторитарист склонен предпочитать мнение правительства.</p>
+    <p class="value-description"><b style="color:#0288d1;">Глобалист vs. Изоляционист</b><br/>
+        Глобалист склонен предпочитать международные организации, Изоляционист склонен предпочитать избегать международных отношений.</p>
+    <p class="value-description"><b style="color:#689f38;">Милитарист vs. Пацифист</b><br/>
+        Милитарист склонен предпочитать военные действия, Пацифист склонен предпочитать избегать военных действий.</p>
+    <p class="value-description"><b style="color:#303f9f;">Безопасность vs. Свобода</b><br/>
+        Сторонник Безопасности склонен предпочитать, чтобы правительство отдавало приоритет безопасности, сторонник Свободы склонен предпочитать, чтобы правительство не вмешивалось в его жизнь.</p>
+    <p class="value-description"><b style="color:#d32f2f;">Равенство vs. Рынок</b><br/>
+        Сторонник Равенства склонен предпочитать социализм, сторонник Рынка склонен предпочитать капитализм.</p>
+    <p class="value-description"><b style="color:#f57c00;">Cекулярист vs. Религиозный</b><br/>
+        Секулярист склонен предпочитать, чтобы религия оставалась подальше от общественной жизни и правительства, тот, у кого более высокий балл религиозности, склонен предпочитать, чтобы религия оказывала некоторое влияние на общество.</p>
+    <p class="value-description"><b style="color:#7b1fa2;">Прогрессивист vs. Традиционалист</b><br/>
+        Прогрессивист склонен предпочитать научные достижения и изменения, Традиционалист склонен предпочитать традицию.</p>
+    <p class="value-description"><b style="color:#ea90ab;">Ассимуляционист vs. Мультикультуралист</b><br/>
+        Ассимуляционист если и склонен предпочитать иммигрантов, то только если они приспособятся к национальной культуре, Мультикультуралист склонен предпочитать иметь множество культурных идентичностей внутри нации.</p>
+<h2>Другая викторина</h2>
+<p>Я создал другую викторину, основанную на отзывах об этой викторине, она доступна по ссылке: <a href="https://sixtriangles.github.io/ru.html">https://sixtriangles.github.io/</a></p>
+<h2>Мне не нравятся мои результаты!</h2>
+    <p>¯\_(ツ)_/¯<br/>
+    Если у вас какие-либо предложения или конструктивная критика для этого проекта, не стесняйтесь отправлять телеграмму в Рим двадцать первого века, если это высказывание имеет для вас какой-то смысл, если же нет, откройте issue на странице GutHub!</p>
+<br/>
+<p>Legal notice: The 8values project's license grants the rights to "modify, merge, publish, distribute" the software as long as "The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software." The included notice can be found <a href="LICENSE">here</a>. This project is released under the same license.</p>
 </body>
-</html>
+
+
