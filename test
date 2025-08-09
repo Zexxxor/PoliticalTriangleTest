@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9Axes Test — Русская версия</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+        }
+        h1 {
+            margin: 0;
+        }
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .question {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 20px;
+            background: #ddd;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            height: 100%;
+            background: #4CAF50;
+            width: 0%;
+            border-radius: 4px;
+        }
+        .result {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>9Axes — Политический тест</h1>
+    <p>Русская версия</p>
+</header>
+<main>
+    <div id="intro">
+        <h2>Добро пожаловать!</h2>
+        <p>Этот тест измеряет вашу позицию по 9 политическим осям.<br>
+           Отвечайте честно, выбирая степень согласия или несогласия.</p>
+        <button onclick="startTest()">Начать тест</button>
+    </div>
+    <div id="test" style="display:none;">
+        <div class="progress">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div id="question-container">
+            <p class="question" id="question-text"></p>
+            <div>
+                <button onclick="answer(2)">Полностью согласен</button>
+                <button onclick="answer(1)">Согласен</button>
+                <button onclick="answer(0)">Нейтрально</button>
+                <button onclick="answer(-1)">Не согласен</button>
+                <button onclick="answer(-2)">Полностью не согласен</button>
+            </div>
+        </div>
+    </div>
+    <div id="result" class="result">
+        <h2>Ваш результат</h2>
+        <div id="result-text"></div>
+        <button onclick="restartTest()">Пройти ещё раз</button>
+    </div>
+</main>
+
+<script>
+let questions = [
+    { text: "Государство должно активно перераспределять богатство от богатых к бедным.", axis: "Равенство", value: 1 },
+    { text: "Частная собственность священна и неприкосновенна.", axis: "Равенство", value: -1 },
+    { text: "Свобода слова важнее защиты от оскорблений.", axis: "Свобода", value: 1 },
+    { text: "Некоторые виды высказываний должны быть запрещены законом.", axis: "Свобода", value: -1 },
+    { text: "Экономика должна быть максимально свободной от государственного регулирования.", axis: "Рынок", value: 1 },
+    { text: "Государство должно контролировать ключевые отрасли экономики.", axis: "Рынок", value: -1 }
+];
+
+let currentQuestion = 0;
+let answers = [];
+
+function startTest() {
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("test").style.display = "block";
+    showQuestion();
+}
+
+function showQuestion() {
+    let q = questions[currentQuestion];
+    document.getElementById("question-text").innerText = q.text;
+    let progress = ((currentQuestion) / questions.length) * 100;
+    document.getElementById("progress-bar").style.width = progress + "%";
+}
+
+function answer(score) {
+    answers.push({ question: questions[currentQuestion], score: score });
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+        showQuestion();
+    } else {
+        finishTest();
+    }
+}
+
+function finishTest() {
+    document.getElementById("test").style.display = "none";
+    document.getElementById("result").style.display = "block";
+
+    let resultText = "";
+    let axisScores = {};
+
+    answers.forEach(a => {
+        if (!axisScores[a.question.axis]) {
+            axisScores[a.question.axis] = 0;
+        }
+        axisScores[a.question.axis] += a.score * a.question.value;
+    });
+
+    for (let axis in axisScores) {
+        resultText += `<p><b>${axis}</b>: ${axisScores[axis]}</p>`;
+    }
+
+    document.getElementById("result-text").innerHTML = resultText;
+}
+
+function restartTest() {
+    currentQuestion = 0;
+    answers = [];
+    document.getElementById("result").style.display = "none";
+    document.getElementById("intro").style.display = "block";
+}
+</script>
+</body>
+</html>
