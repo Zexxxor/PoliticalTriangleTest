@@ -8,14 +8,15 @@ body, p, a {
 
 /* Background and central layout */
 body {
-    background-color: #e0e0e0;
+    background-color: #BBBBBB;
 }
 
 .content-wrapper {
     max-width: 1000px;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: #DDDDDD;
     padding: 20px;
+    border: 30px solid #FFFFFF;
 }
 
 /* Заголовки */
@@ -53,6 +54,10 @@ h1, h2 {
 }
 
 /* Описание осей */
+.axes-intro {
+    text-align: center;
+}
+
 .value-description {
     text-align: center;
     margin: 15px 0;
