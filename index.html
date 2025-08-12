@@ -54,4 +54,84 @@
 
 
 
+style.css
++30
+-0
 
+/* Основной текст */
+body, p, a {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+/* Background and central layout */
+body {
+    background-color: #e0e0e0;
+}
+
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+}
+
+/* Заголовки */
+h1, h2 {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Кнопка "Начать тест" — применится и к .button и к .start-button */
+.start-button,
+.button {
+    display: block !important;
+    margin: 20px auto !important;      /* центрируем */
+    font-size: 30px !important;
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #2196F3 !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 20px 60px !important;    /* сохраняем прежние размеры кнопки */
+    cursor: pointer !important;
+    transition: background-color .2s ease !important;
+}
+.start-button:hover,
+.button:hover {
+    background-color: #1976D2 !important;
+}
+
+/* Эффект при наведении */
+.start-button:hover,
+.button:hover {
+    background-color: #1976D2;        /* Чуть темнее */
+}
+
+/* Описание осей */
+.value-description {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.value-description .value-axis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.value-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Центровка картинок с классом center */
+.center {
+    display: block;
+    margin: 0 auto;
+}
