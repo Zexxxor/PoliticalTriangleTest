@@ -1,12 +1,4 @@
-@font-face {
-    font-family: 'Futura Cyrillic Light';
-    src: url('FuturaCyrillicLight.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Futura Cyrillic Medium';
+font-family: 'Futura Cyrillic Medium';
     src: url('FuturaCyrillicMedium.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
@@ -31,26 +23,36 @@ body {
     background-color: #DDDDDD;
     padding: 20px;
     border: 30px solid #FFFFFF;
+    text-align: center;
 }
-@@ -50,26 +50,30 @@ h1, h2 {
+
+/* Заголовки */
+h1, h2 {
+    text-align: center;
+    font-family: 'Futura Cyrillic Medium', sans-serif;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Кнопка "Начать тест" — применится и к .button и к .start-button */
+.start-button,
+.button {
+    display: block !important;
+    margin: 20px auto !important;
+    font-size: 30px !important;
     font-family: 'Futura Cyrillic Medium', sans-serif !important;
     background-color: #2196F3 !important;
     color: #fff !important;
     border: none !important;
     border-radius: 8px !important;
-    padding: 20px 60px !important;    /* сохраняем прежние размеры кнопки */
+    padding: 20px 60px !important;
     cursor: pointer !important;
     transition: background-color .2s ease !important;
 }
+
 .start-button:hover,
 .button:hover {
     background-color: #1976D2 !important;
-}
-
-/* Эффект при наведении */
-.start-button:hover,
-.button:hover {
-    background-color: #1976D2;        /* Чуть темнее */
 }
 
 /* Описание осей */
@@ -60,5 +62,25 @@ body {
 
 /* Описание ценностей */
 .value-description {
-    margin: 10px 0;
+    text-align: center;
+    margin: 15px 0;
+}
+
+.value-description .value-axis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.value-icon {
+    height: 1em;
+    width: auto;
+    vertical-align: middle;
+}
+
+/* Центровка картинок с классом center */
+.center {
+    display: block;
+    margin: 0 auto;
 }
