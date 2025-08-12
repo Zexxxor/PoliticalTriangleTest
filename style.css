@@ -6,6 +6,18 @@ body, p, a {
     line-height: 1.5;
 }
 
+/* Background and central layout */
+body {
+    background-color: #e0e0e0;
+}
+
+.content-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+}
+
 /* Заголовки */
 h1, h2 {
     text-align: center;
@@ -38,6 +50,24 @@ h1, h2 {
 .start-button:hover,
 .button:hover {
     background-color: #1976D2;        /* Чуть темнее */
+}
+
+/* Описание осей */
+.value-description {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.value-description .value-axis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.value-icon {
+    width: 24px;
+    height: 24px;
 }
 
 /* Центровка картинок с классом center */
