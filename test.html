@@ -214,20 +214,30 @@
 <button id="calc">Посчитать</button>
 <div id="result"></div>
 </div>
-<script>
-document.getElementById('calc').addEventListener('click', () => {
-  const totals = {индивидуализм: 0, абсолютизм: 0, равенство: 0};
+  <script>
   document.querySelectorAll('select').forEach(sel => {
-    const opt = sel.selectedOptions[0];
-    const axis = opt.dataset.axis;
-    const score = parseInt(opt.dataset.score, 10);
-    if (axis && !isNaN(score)) {
-      totals[axis] += score;
+    const textarea = document.createElement('textarea');
+    textarea.classList.add('list-text');
+    sel.parentNode.insertBefore(textarea, sel);
+    const next = sel.nextSibling;
+    if (next && next.nodeName === 'BR') {
+      sel.parentNode.removeChild(next);
     }
   });
-  const result = document.getElementById('result');
-  result.textContent = `Индивидуализм: ${totals['индивидуализм']}, Абсолютизм: ${totals['абсолютизм']}, Равенство: ${totals['равенство']}`;
-});
-</script>
-</body>
-</html>
+
+  document.getElementById('calc').addEventListener('click', () => {
+    const totals = {индивидуализм: 0, абсолютизм: 0, равенство: 0};
+    document.querySelectorAll('select').forEach(sel => {
+      const opt = sel.selectedOptions[0];
+      const axis = opt.dataset.axis;
+      const score = parseInt(opt.dataset.score, 10);
+      if (axis && !isNaN(score)) {
+        totals[axis] += score;
+      }
+    });
+    const result = document.getElementById('result');
+    result.textContent = `Индивидуализм: ${totals['индивидуализм']}, Абсолютизм: ${totals['абсолютизм']}, Равенство: ${totals['равенство']}`;
+  });
+  </script>
+  </body>
+  </html>
