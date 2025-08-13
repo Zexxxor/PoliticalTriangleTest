@@ -215,10 +215,11 @@
 <div id="result"></div>
 </div>
   <script>
-  document.querySelectorAll('select').forEach(sel => {
-    const textarea = document.createElement('textarea');
-    textarea.classList.add('list-text');
-    sel.parentNode.insertBefore(textarea, sel);
+  document.querySelectorAll('select').forEach((sel, idx) => {
+    const heading = document.createElement('div');
+    heading.classList.add('list-heading');
+    heading.textContent = `Вопрос ${idx + 1}`;
+    sel.parentNode.insertBefore(heading, sel);
     const next = sel.nextSibling;
     if (next && next.nodeName === 'BR') {
       sel.parentNode.removeChild(next);
