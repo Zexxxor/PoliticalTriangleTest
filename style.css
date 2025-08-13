@@ -93,3 +93,22 @@ h1, h2 {
     display: block;
     margin: 0 auto;
 }
+
+/* Стили для списков в тесте и их заголовков */
+select {
+    width: 95%;
+    display: block;
+    margin: 10px auto;
+    font-family: 'Futura Cyrillic Light', sans-serif;
+}
+
+select option {
+    font-family: 'Futura Cyrillic Light', sans-serif;
+}
+
+.list-heading {
+    width: 95%;
+    margin: 10px auto;
+    text-align: center;
+    font-family: 'Futura Cyrillic Book', sans-serif;
+}
