@@ -11,7 +11,7 @@
 <div class="content-wrapper">
 <h1>Political Triangle | Three Telos Model</h1>
 <hr>
-  ааа
+<div class="list-text">Пример текста для вопроса 1</div>
 <select>
 <option data-axis="индивидуализм" data-score="1">(инд+1)</option>
 <option data-axis="индивидуализм" data-score="2">(инд+2)</option>
@@ -21,7 +21,7 @@
 <option data-axis="равенство" data-score="2">(рав+2)</option>
 <option data-axis="" data-score="0">Затрудняюсь ответить</option>
 </select>
-  ббб
+<div class="list-text">Пример текста для вопроса 2</div>
 <select>
 <option data-axis="индивидуализм" data-score="1">(инд+1)</option>
 <option data-axis="индивидуализм" data-score="2">(инд+2)</option>
@@ -206,14 +206,12 @@
     heading.textContent = `Вопрос ${idx + 1}`;
     block.appendChild(heading);
 
-    if (sel.dataset.text) {
-      const text = document.createElement('div');
-      text.classList.add('list-text');
-      text.textContent = sel.dataset.text;
-      block.appendChild(text);
+    const prev = sel.previousElementSibling;
+    sel.parentNode.insertBefore(block, prev || sel);
+    if (prev && prev.classList.contains('list-text')) {
+      block.appendChild(prev);
     }
 
-    sel.parentNode.insertBefore(block, sel);
     block.appendChild(sel);
   });
 
@@ -228,11 +226,6 @@
       }
     });
     const result = document.getElementById('result');
-    result.textContent = `Индивидуализм: ${totals['индивидуализм']}, Абсолютизм: ${totals['абсолютизм']}, Равенство: ${totals['равенство']}`;
-  });
-  </script>
-  </body>
-  </html>
     result.textContent = `Индивидуализм: ${totals['индивидуализм']}, Абсолютизм: ${totals['абсолютизм']}, Равенство: ${totals['равенство']}`;
   });
   </script>
