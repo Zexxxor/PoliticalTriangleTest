@@ -47,8 +47,8 @@ h1, h2 {
 .button {
     display: block !important;
     margin: 20px auto !important;
-    font-size: 30px !important;
-    font-family: 'Futura Cyrillic Book', sans-serif !important;
+    font-size: 16px !important;
+    font-family: 'Futura Cyrillic Light', sans-serif !important;
     background-color: #2196F3 !important;
     color: #fff !important;
     border: none !important;
