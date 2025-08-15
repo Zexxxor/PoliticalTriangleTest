@@ -232,41 +232,63 @@
 <option data-axis="абсолютизм" data-score="2">Источником правосудия является воля верховного лидера как носителя суверенной власти. Законы - это инструменты её выражения. Судьи должны действовать в интересах правителя и государства.</option>
 <option data-axis="" data-score="0">Затрудняюсь ответить</option>
 </select>
-<button id="calc">Посчитать</button>
-<div id="result"></div>
 </div>
-  <script>
-  document.querySelectorAll('select').forEach((sel, idx) => {
-    const block = document.createElement('div');
-    block.classList.add('question-block');
-
-    const heading = document.createElement('div');
-    heading.classList.add('list-heading');
-    heading.textContent = `Вопрос ${idx + 1}`;
-    block.appendChild(heading);
-
-    const prev = sel.previousElementSibling;
-    sel.parentNode.insertBefore(block, prev || sel);
-    if (prev && prev.classList.contains('list-text')) {
-      block.appendChild(prev);
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const content = document.querySelector('.content-wrapper');
+  const questionElements = Array.from(content.querySelectorAll('select'));
+  const questions = questionElements.map(sel => {
+    const textEl = sel.previousElementSibling;
+    const qText = textEl.textContent;
+    const options = Array.from(sel.options)
+      .slice(1)
+      .filter(opt => !opt.textContent.includes('Затрудняюсь'))
+      .map(opt => ({
+        text: opt.textContent,
+        axis: opt.dataset.axis,
+        score: parseInt(opt.dataset.score, 10)
+      }));
+    return { text: qText, options };
+  });
+  content.querySelectorAll('select, .list-text, #calc, #result').forEach(el => el.remove());
+  const quizContainer = document.createElement('div');
+  content.appendChild(quizContainer);
+  const totals = {индивидуализм: 0, абсолютизм: 0, равенство: 0};
+  let idx = 0;
+  function showQuestion() {
+    quizContainer.innerHTML = '';
+    if (idx < questions.length) {
+      const q = questions[idx];
+      const heading = document.createElement('div');
+      heading.className = 'list-heading';
+      heading.textContent = `Вопрос ${idx + 1}`;
+      quizContainer.appendChild(heading);
+      const qText = document.createElement('div');
+      qText.className = 'list-text';
+      qText.textContent = q.text;
+      quizContainer.appendChild(qText);
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'button answer-button';
+        btn.textContent = opt.text;
+        btn.addEventListener('click', () => {
+          if (opt.axis) {
+            totals[opt.axis] += opt.score;
+          }
+          idx++;
+          showQuestion();
+        });
+        quizContainer.appendChild(btn);
+      });
+    } else {
+      const res = document.createElement('div');
+      res.id = 'result';
+      res.textContent = `Индивидуализм: ${totals['индивидуализм']}, Абсолютизм: ${totals['абсолютизм']}, Равенство: ${totals['равенство']}`;
+      quizContainer.appendChild(res);
     }
-
-    block.appendChild(sel);
-  });
-
-  document.getElementById('calc').addEventListener('click', () => {
-    const totals = {индивидуализм: 0, абсолютизм: 0, равенство: 0};
-    document.querySelectorAll('select').forEach(sel => {
-      const opt = sel.selectedOptions[0];
-      const axis = opt.dataset.axis;
-      const score = parseInt(opt.dataset.score, 10);
-      if (axis && !isNaN(score)) {
-        totals[axis] += score;
-      }
-    });
-    const result = document.getElementById('result');
-    result.textContent = `Индивидуализм: ${totals['индивидуализм']}, Абсолютизм: ${totals['абсолютизм']}, Равенство: ${totals['равенство']}`;
-  });
-  </script>
-  </body>
-  </html>
+  }
+  showQuestion();
+});
+</script>
+</body>
+</html>
