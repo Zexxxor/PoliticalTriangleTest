@@ -30,8 +30,9 @@ body {
     margin: 0 auto;
     background-color: #DDDDDD;
     padding: 20px;
-    border: 30px solid #FFFFFF;
-text-align: center;
+    border-left: 30px solid #FFFFFF;
+    border-right: 30px solid #FFFFFF;
+    text-align: center;
 }
 
 /* Заголовки */
