@@ -63,6 +63,11 @@ h1, h2 {
     background-color: #1976D2 !important;
 }
 
+.answer-button {
+    width: 95% !important;
+    margin: 10px auto !important;
+}
+
 /* Описание осей */
 .axes-intro {
     text-align: center;
