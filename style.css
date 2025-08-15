@@ -32,6 +32,8 @@ body {
     padding: 20px;
     border-left: 30px solid #FFFFFF;
     border-right: 30px solid #FFFFFF;
+    border-top: none;
+    border-bottom: none;
     text-align: center;
 }
 
