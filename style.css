@@ -128,7 +128,22 @@ select option {
     margin: 20px auto;
 }
 
-#imageUpload {
+.triangle-container {
+    position: relative;
+    width: 400px;
+    margin: 20px auto;
+}
+
+.corner-label {
+    position: absolute;
+    text-align: center;
+    font-family: 'Futura Cyrillic Book', sans-serif;
+    transform: translate(-50%, -50%);
+}
+
+.corner-icon {
+    width: 32px;
+    height: auto;
     display: block;
-    margin: 10px auto;
+    margin: 0 auto 4px auto;
 }
