@@ -289,24 +289,24 @@ const sum = totals['индивидуализм'] + totals['абсолютизм'
       const absPerc = sum ? (totals['абсолютизм'] / sum * 100).toFixed(1) : 0;
       const eqPerc = sum ? (totals['равенство'] / sum * 100).toFixed(1) : 0;
       res.innerHTML = `Индивидуализм: ${indPerc}%, Абсолютизм: ${absPerc}%, Равенство: ${eqPerc}%`;
-      quizContainer.appendChild(res);
+     quizContainer.appendChild(res);
+
+      const mirror = true; // зеркальное отражение по горизонтали
+
+      const triContainer = document.createElement('div');
+      triContainer.className = 'triangle-container';
+      quizContainer.appendChild(triContainer);
 
       const canvas = document.createElement('canvas');
       canvas.id = 'triangleCanvas';
       canvas.width = 400;
       canvas.height = 350;
-      quizContainer.appendChild(canvas);
-
-      const upload = document.createElement('input');
-      upload.type = 'file';
-      upload.id = 'imageUpload';
-      upload.accept = 'image/*';
-      quizContainer.appendChild(upload);
+      triContainer.appendChild(canvas);
 
       const ctx = canvas.getContext('2d');
       const A = {x: canvas.width / 2, y: 20};
-      const B = {x: 20, y: canvas.height - 20};
-      const C = {x: canvas.width - 20, y: canvas.height - 20};
+      const B = {x: mirror ? canvas.width - 20 : 20, y: canvas.height - 20};
+      const C = {x: mirror ? 20 : canvas.width - 20, y: canvas.height - 20};
 
       const point = {
         x: (totals['индивидуализм'] * A.x + totals['равенство'] * B.x + totals['абсолютизм'] * C.x) / sum,
@@ -314,26 +314,41 @@ const sum = totals['индивидуализм'] + totals['абсолютизм'
       };
       res.innerHTML += `<br/>Координаты: (${point.x.toFixed(1)}, ${point.y.toFixed(1)})`;
 
+      const labels = [
+        {img: 'Индивидуализм.png', text: 'Индивидуализм', left: '50%', top: '0%', transform: 'translate(-50%, -100%)'},
+        {img: 'Равенство.png', text: 'Равенство', left: mirror ? '100%' : '0%', top: '100%', transform: mirror ? 'translate(-100%, 0)' : 'translate(0, 0)'},
+        {img: 'Абсолютизм.png', text: 'Абсолютизм', left: mirror ? '0%' : '100%', top: '100%', transform: mirror ? 'translate(0, 0)' : 'translate(-100%, 0)'}
+      ];
+      labels.forEach(l => {
+        const div = document.createElement('div');
+        div.className = 'corner-label';
+        div.style.left = l.left;
+        div.style.top = l.top;
+        div.style.transform = l.transform;
+        const img = document.createElement('img');
+        img.src = l.img;
+        img.alt = l.text;
+        img.className = 'corner-icon';
+        const span = document.createElement('div');
+        span.textContent = l.text;
+        div.appendChild(img);
+        div.appendChild(span);
+        triContainer.appendChild(div);
+      });
+
       function drawTriangleBackground(img) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (img) {
-          ctx.save();
+        if (img && img.complete) {
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        } else {
+          ctx.strokeStyle = '#000';
           ctx.beginPath();
           ctx.moveTo(A.x, A.y);
           ctx.lineTo(B.x, B.y);
           ctx.lineTo(C.x, C.y);
           ctx.closePath();
-          ctx.clip();
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          ctx.restore();
+          ctx.stroke();
         }
-        ctx.strokeStyle = '#000';
-        ctx.beginPath();
-        ctx.moveTo(A.x, A.y);
-        ctx.lineTo(B.x, B.y);
-        ctx.lineTo(C.x, C.y);
-        ctx.closePath();
-        ctx.stroke();
       }
 
       function drawPoint() {
@@ -343,23 +358,23 @@ const sum = totals['индивидуализм'] + totals['абсолютизм'
         ctx.fill();
       }
 
-      drawTriangleBackground();
-      drawPoint();
-
-      upload.addEventListener('change', e => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const img = new Image();
-        img.onload = () => {
-          drawTriangleBackground(img);
-          drawPoint();
-        };
-        img.src = URL.createObjectURL(file);
-      });
+      const bgImage = new Image();
+      bgImage.onload = () => {
+        drawTriangleBackground(bgImage);
+        drawPoint();
+      };
+      bgImage.onerror = () => {
+        drawTriangleBackground();
+        drawPoint();
+      };
+      bgImage.src = 'triangle.png';
     }
   }
   showQuestion();
 });
+</script>
+</body>
+</html>
 </script>
 </body>
 </html>
