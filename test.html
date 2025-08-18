@@ -284,7 +284,78 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = document.createElement('div');
       res.id = 'result';
       res.textContent = `Индивидуализм: ${totals['индивидуализм']}, Абсолютизм: ${totals['абсолютизм']}, Равенство: ${totals['равенство']}`;
+const sum = totals['индивидуализм'] + totals['абсолютизм'] + totals['равенство'];
+      const indPerc = sum ? (totals['индивидуализм'] / sum * 100).toFixed(1) : 0;
+      const absPerc = sum ? (totals['абсолютизм'] / sum * 100).toFixed(1) : 0;
+      const eqPerc = sum ? (totals['равенство'] / sum * 100).toFixed(1) : 0;
+      res.innerHTML = `Индивидуализм: ${indPerc}%, Абсолютизм: ${absPerc}%, Равенство: ${eqPerc}%`;
       quizContainer.appendChild(res);
+
+      const canvas = document.createElement('canvas');
+      canvas.id = 'triangleCanvas';
+      canvas.width = 400;
+      canvas.height = 350;
+      quizContainer.appendChild(canvas);
+
+      const upload = document.createElement('input');
+      upload.type = 'file';
+      upload.id = 'imageUpload';
+      upload.accept = 'image/*';
+      quizContainer.appendChild(upload);
+
+      const ctx = canvas.getContext('2d');
+      const A = {x: canvas.width / 2, y: 20};
+      const B = {x: 20, y: canvas.height - 20};
+      const C = {x: canvas.width - 20, y: canvas.height - 20};
+
+      const point = {
+        x: (totals['индивидуализм'] * A.x + totals['равенство'] * B.x + totals['абсолютизм'] * C.x) / sum,
+        y: (totals['индивидуализм'] * A.y + totals['равенство'] * B.y + totals['абсолютизм'] * C.y) / sum
+      };
+      res.innerHTML += `<br/>Координаты: (${point.x.toFixed(1)}, ${point.y.toFixed(1)})`;
+
+      function drawTriangleBackground(img) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (img) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(A.x, A.y);
+          ctx.lineTo(B.x, B.y);
+          ctx.lineTo(C.x, C.y);
+          ctx.closePath();
+          ctx.clip();
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          ctx.restore();
+        }
+        ctx.strokeStyle = '#000';
+        ctx.beginPath();
+        ctx.moveTo(A.x, A.y);
+        ctx.lineTo(B.x, B.y);
+        ctx.lineTo(C.x, C.y);
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+      function drawPoint() {
+        ctx.fillStyle = 'red';
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      drawTriangleBackground();
+      drawPoint();
+
+      upload.addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const img = new Image();
+        img.onload = () => {
+          drawTriangleBackground(img);
+          drawPoint();
+        };
+        img.src = URL.createObjectURL(file);
+      });
     }
   }
   showQuestion();
