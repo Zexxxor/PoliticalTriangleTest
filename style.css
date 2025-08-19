@@ -124,14 +124,21 @@ select option {
 }
 
 #triangleCanvas {
-    display: block;
-    margin: 20px auto;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 .triangle-container {
     position: relative;
     width: 400px;
     margin: 20px auto;
+}
+
+.triangle-background {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 .corner-label {
