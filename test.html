@@ -307,13 +307,13 @@ const sum = totals['индивидуализм'] + totals['абсолютизм'
       canvas.height = 350;
       triContainer.appendChild(canvas);
 
-      const ctx = canvas.getContext('2d');
+     const ctx = canvas.getContext('2d');
       const margin = 20;
-      const baseX = canvas.width - margin; // вертикальная сторона справа
       const maxSideByHeight = canvas.height - 2 * margin;
-      const maxSideByWidth = (baseX - margin) * 2 / Math.sqrt(3);
+      const maxSideByWidth = (canvas.width - 2 * margin) * 2 / Math.sqrt(3);
       const side = Math.min(maxSideByHeight, maxSideByWidth); // сторона равностороннего треугольника
       const height = side * Math.sqrt(3) / 2;
+      const baseX = canvas.width / 2 + height / 2; // вертикальная сторона справа
 
       const I = {x: baseX, y: margin}; // Индивидуализм (верхняя точка)
       const A = {x: baseX, y: margin + side}; // Абсолютизм (нижняя точка)
