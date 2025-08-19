@@ -289,9 +289,7 @@ const sum = totals['индивидуализм'] + totals['абсолютизм'
       const absPerc = sum ? (totals['абсолютизм'] / sum * 100).toFixed(1) : 0;
       const eqPerc = sum ? (totals['равенство'] / sum * 100).toFixed(1) : 0;
       res.innerHTML = `Индивидуализм: ${indPerc}%, Абсолютизм: ${absPerc}%, Равенство: ${eqPerc}%`;
-     quizContainer.appendChild(res);
-
-      const mirror = true; // зеркальное отражение по горизонтали
+    quizContainer.appendChild(res);
 
       const triContainer = document.createElement('div');
       triContainer.className = 'triangle-container';
@@ -310,9 +308,16 @@ const sum = totals['индивидуализм'] + totals['абсолютизм'
       triContainer.appendChild(canvas);
 
       const ctx = canvas.getContext('2d');
-      const A = {x: mirror ? 20 : canvas.width - 20, y: 20}; // Индивидуализм
-      const B = {x: mirror ? canvas.width - 20 : 20, y: 20}; // Равенство
-      const C = {x: canvas.width / 2, y: canvas.height - 20}; // Абсолютизм
+      const margin = 20;
+      const baseX = canvas.width - margin; // вертикальная сторона справа
+      const maxSideByHeight = canvas.height - 2 * margin;
+      const maxSideByWidth = (baseX - margin) * 2 / Math.sqrt(3);
+      const side = Math.min(maxSideByHeight, maxSideByWidth); // сторона равностороннего треугольника
+      const height = side * Math.sqrt(3) / 2;
+
+      const A = {x: baseX, y: margin}; // Индивидуализм (верхняя точка)
+      const C = {x: baseX, y: margin + side}; // Абсолютизм (нижняя точка)
+      const B = {x: baseX - height, y: margin + side / 2}; // Равенство (левый угол)
 
       const point = {
         x: (totals['индивидуализм'] * A.x + totals['равенство'] * B.x + totals['абсолютизм'] * C.x) / sum,
