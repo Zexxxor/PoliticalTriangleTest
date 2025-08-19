@@ -315,23 +315,34 @@ const sum = totals['индивидуализм'] + totals['абсолютизм'
       const side = Math.min(maxSideByHeight, maxSideByWidth); // сторона равностороннего треугольника
       const height = side * Math.sqrt(3) / 2;
 
-      const A = {x: baseX, y: margin}; // Индивидуализм (верхняя точка)
-      const C = {x: baseX, y: margin + side}; // Абсолютизм (нижняя точка)
-      const B = {x: baseX - height, y: margin + side / 2}; // Равенство (левый угол)
+      const I = {x: baseX, y: margin}; // Индивидуализм (верхняя точка)
+      const A = {x: baseX, y: margin + side}; // Абсолютизм (нижняя точка)
+      const E = {x: baseX - height, y: margin + side / 2}; // Равенство (левый угол)
+
+      let wI = indVal + 1;
+      let wA = absVal + 1;
+      let wE = eqVal + 1;
+      const S = wI + wA + wE;
+      wI /= S;
+      wA /= S;
+      wE /= S;
+
+      const coordX = (Math.sqrt(3) / 2) * (wA - wE);
+      const coordY = wI - 0.5 * (wE + wA);
 
       const point = {
-        x: (totals['индивидуализм'] * A.x + totals['равенство'] * B.x + totals['абсолютизм'] * C.x) / sum,
-        y: (totals['индивидуализм'] * A.y + totals['равенство'] * B.y + totals['абсолютизм'] * C.y) / sum
+        x: wI * I.x + wE * E.x + wA * A.x,
+        y: wI * I.y + wE * E.y + wA * A.y
       };
-      res.innerHTML += `<br/>Координаты: (${point.x.toFixed(1)}, ${point.y.toFixed(1)})`;
+      res.innerHTML += `<br/>Координаты: (${coordX.toFixed(3)}, ${coordY.toFixed(3)})`;
 
       function drawTriangleOutline() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = '#000';
         ctx.beginPath();
-        ctx.moveTo(A.x, A.y);
-        ctx.lineTo(B.x, B.y);
-        ctx.lineTo(C.x, C.y);
+        ctx.moveTo(I.x, I.y);
+        ctx.lineTo(E.x, E.y);
+        ctx.lineTo(A.x, A.y);
         ctx.closePath();
         ctx.stroke();
       }
