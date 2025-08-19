@@ -285,10 +285,10 @@ document.addEventListener('DOMContentLoaded', () => {
       res.id = 'result';
       res.textContent = `Индивидуализм: ${totals['индивидуализм']}, Абсолютизм: ${totals['абсолютизм']}, Равенство: ${totals['равенство']}`;
 const sum = totals['индивидуализм'] + totals['абсолютизм'] + totals['равенство'];
-      const indPerc = sum ? (totals['индивидуализм'] / sum * 100).toFixed(1) : 0;
-      const absPerc = sum ? (totals['абсолютизм'] / sum * 100).toFixed(1) : 0;
-      const eqPerc = sum ? (totals['равенство'] / sum * 100).toFixed(1) : 0;
-      res.innerHTML = `Индивидуализм: ${indPerc}%, Абсолютизм: ${absPerc}%, Равенство: ${eqPerc}%`;
+      const indVal = sum ? (totals['индивидуализм'] / sum * 100) : 0;
+      const absVal = sum ? (totals['абсолютизм'] / sum * 100) : 0;
+      const eqVal = sum ? (totals['равенство'] / sum * 100) : 0;
+      res.innerHTML = `Индивидуализм: ${indVal.toFixed(1)}%, Абсолютизм: ${absVal.toFixed(1)}%, Равенство: ${eqVal.toFixed(1)}%`;
     quizContainer.appendChild(res);
 
       const triContainer = document.createElement('div');
