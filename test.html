@@ -296,7 +296,7 @@ const sum = totals['индивидуализм'] + totals['абсолютизм'
       quizContainer.appendChild(triContainer);
 
       const bg = document.createElement('img');
-      bg.src = 'triangle.svg';
+      bg.src = 'triangle.png';
       bg.alt = 'Треугольник ценностей';
       bg.className = 'triangle-background';
       triContainer.appendChild(bg);
@@ -343,12 +343,15 @@ const sum = totals['индивидуализм'] + totals['абсолютизм'
         ctx.fill();
       }
 
-      bg.onload = () => {
-        drawPoint();
-      };
-      bg.onerror = () => {
+      function render() {
         drawTriangleOutline();
         drawPoint();
+      }
+
+      bg.onload = render;
+      bg.onerror = () => {
+        bg.onerror = render;
+        bg.src = 'triangle.svg';
       };
     }
   }
