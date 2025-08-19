@@ -313,7 +313,7 @@ const sum = totals['индивидуализм'] + totals['абсолютизм'
       const maxSideByWidth = (canvas.width - 2 * margin) * 2 / Math.sqrt(3);
       const side = Math.min(maxSideByHeight, maxSideByWidth); // сторона равностороннего треугольника
       const height = side * Math.sqrt(3) / 2;
-      const baseX = canvas.width / 2 + height / 2; // вертикальная сторона справа
+      const baseX = canvas.width / 2 + height / 3; // центр треугольника в середине
       
       const I = {x: baseX, y: margin}; // Индивидуализм (верхняя точка)
       const A = {x: baseX, y: margin + side}; // Абсолютизм (нижняя точка)
