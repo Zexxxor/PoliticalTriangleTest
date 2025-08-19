@@ -1,7 +1,6 @@
 <svg width="400" height="350" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 350">
-  <image id="triangleImage" href="Треугольник.png" x="0" y="0" width="400" height="350" />
-  <polygon points="20,20 20,330 380,175" stroke="black" fill="none"/>
-  <text x="20" y="15" text-anchor="start" font-family="Futura Cyrillic Book" font-size="18">Индивидуализм</text>
-  <text x="20" y="345" text-anchor="start" font-family="Futura Cyrillic Book" font-size="18">Абсолютизм</text>
-  <text x="380" y="175" text-anchor="end" font-family="Futura Cyrillic Book" font-size="18">Равенство</text>
+  <polygon points="380,20 380,330 112,175" stroke="black" fill="none"/>
+  <text x="380" y="15" text-anchor="end" font-family="Futura Cyrillic Book" font-size="18">Индивидуализм</text>
+  <text x="380" y="345" text-anchor="end" font-family="Futura Cyrillic Book" font-size="18">Абсолютизм</text>
+  <text x="20" y="175" text-anchor="start" font-family="Futura Cyrillic Book" font-size="18">Равенство</text>
 </svg>
