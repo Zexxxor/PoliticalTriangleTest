@@ -140,7 +140,9 @@ select option {
 .triangle-container {
     position: relative;
     width: 400px;
+    height: 270px;
     margin: 20px auto;
+    overflow: hidden;
 }
 
 .triangle-background {
