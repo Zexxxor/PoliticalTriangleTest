@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
   bg.onload = render;
   bg.onerror = () => {
     bg.onerror = render;
+    bg.style.transform = 'none';
     bg.src = 'triangle.svg';
   };
 });
