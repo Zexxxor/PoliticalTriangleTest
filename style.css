@@ -136,9 +136,11 @@ select option {
 }
 
 .triangle-background {
-    width: 130%;
+    width: 100%;
     height: auto;
     display: block;
+    transform: scale(1.3);
+    transform-origin: center;
 }
 
 .corner-label {
