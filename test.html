@@ -254,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const quizContainer = document.createElement('div');
   content.appendChild(quizContainer);
   const totals = {индивидуализм: 0, абсолютизм: 0, равенство: 0};
+  const answers = [];
   let idx = 0;
   function showQuestion() {
     quizContainer.innerHTML = '';
@@ -275,95 +276,38 @@ document.addEventListener('DOMContentLoaded', () => {
           if (opt.axis) {
             totals[opt.axis] += opt.score;
           }
+          answers.push({axis: opt.axis, score: opt.score});
           idx++;
           showQuestion();
         });
         quizContainer.appendChild(btn);
       });
+      if (idx > 0) {
+        const backBtn = document.createElement('button');
+        backBtn.className = 'button answer-button back-button';
+        backBtn.textContent = 'Назад';
+        backBtn.addEventListener('click', () => {
+          if (idx > 0) {
+            const prev = answers.pop();
+            if (prev && prev.axis) {
+              totals[prev.axis] -= prev.score;
+            }
+            idx--;
+            showQuestion();
+          }
+        });
+        quizContainer.appendChild(backBtn);
+      }
     } else {
-      const res = document.createElement('div');
-      res.id = 'result';
-      res.textContent = `Индивидуализм: ${totals['индивидуализм']}, Абсолютизм: ${totals['абсолютизм']}, Равенство: ${totals['равенство']}`;
-const sum = totals['индивидуализм'] + totals['абсолютизм'] + totals['равенство'];
-      const indVal = sum ? (totals['индивидуализм'] / sum * 100) : 0;
-      const absVal = sum ? (totals['абсолютизм'] / sum * 100) : 0;
-      const eqVal = sum ? (totals['равенство'] / sum * 100) : 0;
-      res.innerHTML = `Индивидуализм: ${indVal.toFixed(1)}%, Абсолютизм: ${absVal.toFixed(1)}%, Равенство: ${eqVal.toFixed(1)}%`;
-    quizContainer.appendChild(res);
-
-      const triContainer = document.createElement('div');
-      triContainer.className = 'triangle-container';
-      quizContainer.appendChild(triContainer);
-
-      const bg = document.createElement('img');
-      bg.src = 'Треугольник.png';
-      bg.alt = 'Треугольник ценностей';
-      bg.className = 'triangle-background';
-      triContainer.appendChild(bg);
-
-      const canvas = document.createElement('canvas');
-      canvas.id = 'triangleCanvas';
-      canvas.width = 400;
-      canvas.height = 270;
-      triContainer.appendChild(canvas);
-
-      const ctx = canvas.getContext('2d');
-      const margin = 0;
-      const maxSideByHeight = canvas.height - 2 * margin;
-      const maxSideByWidth = (canvas.width - 2 * margin) * 2 / Math.sqrt(3);
-      const side = Math.min(maxSideByHeight, maxSideByWidth); // сторона равностороннего треугольника
-      const height = side * Math.sqrt(3) / 2;
-      const baseX = canvas.width / 2 + height / 3; // центр треугольника в середине
-      
-      const I = {x: baseX, y: margin}; // Индивидуализм (верхняя точка)
-      const A = {x: baseX, y: margin + side}; // Абсолютизм (нижняя точка)
-      const E = {x: baseX - height, y: margin + side / 2}; // Равенство (левый угол)
-
-      let wI = indVal + 1;
-      let wA = absVal + 1;
-      let wE = eqVal + 1;
-      const S = wI + wA + wE;
-      wI /= S;
-      wA /= S;
-      wE /= S;
-
-      const coordX = (Math.sqrt(3) / 2) * (wA - wE);
-      const coordY = wI - 0.5 * (wE + wA);
-
-      const point = {
-        x: wI * I.x + wE * E.x + wA * A.x,
-        y: wI * I.y + wE * E.y + wA * A.y
+      const sum = totals['индивидуализм'] + totals['абсолютизм'] + totals['равенство'];
+      const resultData = {
+        totals,
+        ind: sum ? (totals['индивидуализм'] / sum * 100) : 0,
+        abs: sum ? (totals['абсолютизм'] / sum * 100) : 0,
+        eq: sum ? (totals['равенство'] / sum * 100) : 0
       };
-      res.innerHTML += `<br/>Координаты: (${coordX.toFixed(3)}, ${coordY.toFixed(3)})`;
-
-      function drawTriangleOutline() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = '#000';
-        ctx.beginPath();
-        ctx.moveTo(I.x, I.y);
-        ctx.lineTo(E.x, E.y);
-        ctx.lineTo(A.x, A.y);
-        ctx.closePath();
-        ctx.stroke();
-      }
-
-      function drawPoint() {
-        ctx.fillStyle = 'red';
-        ctx.beginPath();
-        ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      function render() {
-        drawTriangleOutline();
-        drawPoint();
-      }
-
-      bg.onload = render;
-      bg.onerror = () => {
-        bg.onerror = render;
-        bg.src = 'triangle.svg';
-      };
+      localStorage.setItem('triangleResult', JSON.stringify(resultData));
+      window.location.href = 'result.html';
     }
   }
   showQuestion();
