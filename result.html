@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<link href="./style.css" rel="stylesheet" type="text/css">
+<title>Political Triangle | Three Telos Model</title>
+<link rel="icon" type="x-icon" href="icon.png">
+<link rel="shortcut icon" type="x-icon" href="icon.png">
+</head>
+<body>
+<div class="content-wrapper">
+<h1>Political Triangle | Three Telos Model</h1>
+<hr>
+<div id="result"></div>
+<div class="triangle-container">
+  <img src="Треугольник.png" alt="Треугольник ценностей" class="triangle-background">
+  <canvas id="triangleCanvas" width="400" height="270"></canvas>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const dataStr = localStorage.getItem('triangleResult');
+  if (!dataStr) {
+    document.getElementById('result').textContent = 'Нет данных для отображения.';
+    return;
+  }
+  const data = JSON.parse(dataStr);
+  const indVal = data.ind;
+  const absVal = data.abs;
+  const eqVal = data.eq;
+  const res = document.getElementById('result');
+  res.innerHTML = `Индивидуализм: ${indVal.toFixed(1)}%, Абсолютизм: ${absVal.toFixed(1)}%, Равенство: ${eqVal.toFixed(1)}%`;
+  const canvas = document.getElementById('triangleCanvas');
+  const ctx = canvas.getContext('2d');
+  const margin = 0;
+  const maxSideByHeight = canvas.height - 2 * margin;
+  const maxSideByWidth = (canvas.width - 2 * margin) * 2 / Math.sqrt(3);
+  const side = Math.min(maxSideByHeight, maxSideByWidth);
+  const height = side * Math.sqrt(3) / 2;
+  const baseX = canvas.width / 2 + height / 3;
+  const I = {x: baseX, y: margin};
+  const A = {x: baseX, y: margin + side};
+  const E = {x: baseX - height, y: margin + side / 2};
+  let wI = indVal + 1;
+  let wA = absVal + 1;
+  let wE = eqVal + 1;
+  const S = wI + wA + wE;
+  wI /= S;
+  wA /= S;
+  wE /= S;
+  const coordX = (Math.sqrt(3) / 2) * (wA - wE);
+  const coordY = wI - 0.5 * (wE + wA);
+  res.innerHTML += `<br/>Координаты: (${coordX.toFixed(3)}, ${coordY.toFixed(3)})`;
+  const point = {
+    x: wI * I.x + wE * E.x + wA * A.x,
+    y: wI * I.y + wE * E.y + wA * A.y
+  };
+  function drawTriangleOutline() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#000';
+    ctx.beginPath();
+    ctx.moveTo(I.x, I.y);
+    ctx.lineTo(E.x, E.y);
+    ctx.lineTo(A.x, A.y);
+    ctx.closePath();
+    ctx.stroke();
+  }
+  function drawPoint() {
+    ctx.fillStyle = 'red';
+    ctx.beginPath();
+    ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  function render() {
+    drawTriangleOutline();
+    drawPoint();
+  }
+  const bg = document.querySelector('.triangle-background');
+  bg.onload = render;
+  bg.onerror = () => {
+    bg.onerror = render;
+    bg.src = 'triangle.svg';
+  };
+});
+</script>
+</body>
+</html>
