@@ -141,7 +141,7 @@ select option {
     position: relative;
     width: 400px;
     height: 270px;
-    margin: 20px auto;
+    margin: 130px auto 130px;
     overflow: hidden;
 }
 
