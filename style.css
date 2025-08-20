@@ -66,6 +66,14 @@ h1, h2 {
     background-color: #1976D2 !important;
 }
 
+.back-button {
+    background-color: #7C7C7C !important;
+}
+
+.back-button:hover {
+    background-color: #5e5e5e !important;
+}
+
 .answer-button {
     width: 95% !important;
     margin: 10px auto !important;
