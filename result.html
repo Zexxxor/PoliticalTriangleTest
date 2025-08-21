@@ -24,12 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('result').textContent = 'Нет данных для отображения.';
     return;
   }
-  const data = JSON.parse(dataStr);
+   const data = JSON.parse(dataStr);
   const indVal = data.ind;
   const absVal = data.abs;
   const eqVal = data.eq;
+  const centerVal = data.center || 0;
   const res = document.getElementById('result');
-  res.innerHTML = `Индивидуализм: ${indVal.toFixed(1)}%, Абсолютизм: ${absVal.toFixed(1)}%, Равенство: ${eqVal.toFixed(1)}%`;
+  res.innerHTML = `Индивидуализм: ${indVal.toFixed(1)}%, Абсолютизм: ${absVal.toFixed(1)}%, Равенство: ${eqVal.toFixed(1)}%, Центр: ${centerVal.toFixed(1)}%`;
   const canvas = document.getElementById('triangleCanvas');
   const ctx = canvas.getContext('2d');
   const margin = 0;
@@ -41,20 +42,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const I = {x: baseX, y: margin};
   const A = {x: baseX, y: margin + side};
   const E = {x: baseX - height, y: margin + side / 2};
-  let wI = indVal + 1;
-  let wA = absVal + 1;
-  let wE = eqVal + 1;
-  const S = wI + wA + wE;
-  wI /= S;
-  wA /= S;
-  wE /= S;
+  const C = {x: (I.x + A.x + E.x) / 3, y: (I.y + A.y + E.y) / 3};
+  const total = indVal + absVal + eqVal + centerVal;
+  const wI = total ? indVal / total : 0;
+  const wA = total ? absVal / total : 0;
+  const wE = total ? eqVal / total : 0;
   const coordX = (Math.sqrt(3) / 2) * (wA - wE);
   const coordY = wI - 0.5 * (wE + wA);
   res.innerHTML += `<br/>Координаты: (${coordX.toFixed(3)}, ${coordY.toFixed(3)})`;
-  const point = {
-    x: wI * I.x + wE * E.x + wA * A.x,
-    y: wI * I.y + wE * E.y + wA * A.y
-  };
+  const point = total ? {
+    x: (indVal * I.x + absVal * A.x + eqVal * E.x + centerVal * C.x) / total,
+    y: (indVal * I.y + absVal * A.y + eqVal * E.y + centerVal * C.y) / total
+  } : C;
   function drawTriangleOutline() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = '#000';
