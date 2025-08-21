@@ -290,6 +290,14 @@ document.addEventListener('DOMContentLoaded', () => {
         idx++;
         showQuestion();
       });
+      const skipBtn = document.createElement('button');
+      skipBtn.className = 'button answer-button';
+      skipBtn.textContent = 'Затрудняюсь ответить';
+      skipBtn.addEventListener('click', () => {
+        answers.push({axis: '', score: 0});
+        idx++;
+        showQuestion();
+      });
       quizContainer.appendChild(skipBtn);
       if (idx > 0) {
         const backBtn = document.createElement('button');
