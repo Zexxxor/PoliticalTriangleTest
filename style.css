@@ -61,6 +61,14 @@ h1, h2 {
     transition: background-color .2s ease !important;
 }
 
+.start-button {
+    font-family: 'Futura Cyrillic Book', sans-serif !important;
+}
+
+.button {
+    font-family: 'Futura Cyrillic Light', sans-serif !important;
+}
+
 .start-button:hover,
 .button:hover {
     background-color: #1976D2 !important;
