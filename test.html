@@ -309,12 +309,18 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.appendChild(backBtn);
       }
     } else {
-      const sum = totals['индивидуализм'] + totals['абсолютизм'] + totals['равенство'];
+      const base = questions.length;
+      const adj = {
+        'индивидуализм': totals['индивидуализм'] + base,
+        'абсолютизм': totals['абсолютизм'] + base,
+        'равенство': totals['равенство'] + base
+      };
+      const sum = adj['индивидуализм'] + adj['абсолютизм'] + adj['равенство'];
       const resultData = {
         totals,
-        ind: sum ? (totals['индивидуализм'] / sum * 100) : 0,
-        abs: sum ? (totals['абсолютизм'] / sum * 100) : 0,
-        eq: sum ? (totals['равенство'] / sum * 100) : 0
+        ind: sum ? (adj['индивидуализм'] / sum * 100) : 0,
+        abs: sum ? (adj['абсолютизм'] / sum * 100) : 0,
+        eq: sum ? (adj['равенство'] / sum * 100) : 0
       };
       localStorage.setItem('triangleResult', JSON.stringify(resultData));
       window.location.href = 'result.html';
