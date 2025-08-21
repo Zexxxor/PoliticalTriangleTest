@@ -160,7 +160,7 @@ select option {
     transform-origin: center;
     border: 2px solid #BBBBBB;
     position: relative;
-    top: 2px;
+    top: -2px;
     left: -2px;
 }
 
