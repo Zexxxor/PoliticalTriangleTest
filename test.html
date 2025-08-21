@@ -254,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const quizContainer = document.createElement('div');
   content.appendChild(quizContainer);
   const totals = {индивидуализм: 0, абсолютизм: 0, равенство: 0};
+  let center = 0;
   const answers = [];
   let idx = 0;
   function showQuestion() {
@@ -273,10 +274,15 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.className = 'button answer-button';
         btn.textContent = opt.text;
         btn.addEventListener('click', () => {
+          let c = 0;
           if (opt.axis) {
             totals[opt.axis] += opt.score;
+            if (opt.score === 1) {
+              c = 0.5;
+            }
           }
-          answers.push({axis: opt.axis, score: opt.score});
+          center += c;
+          answers.push({axis: opt.axis, score: opt.score, center: c});
           idx++;
           showQuestion();
         });
@@ -286,7 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
       skipBtn.className = 'button answer-button';
       skipBtn.textContent = 'Затрудняюсь ответить';
       skipBtn.addEventListener('click', () => {
-        answers.push({axis: '', score: 0});
+        center += 1;
+        answers.push({axis: '', score: 0, center: 1});
         idx++;
         showQuestion();
       });
@@ -299,8 +306,11 @@ document.addEventListener('DOMContentLoaded', () => {
         backBtn.addEventListener('click', () => {
           if (idx > 0) {
             const prev = answers.pop();
-            if (prev && prev.axis) {
-              totals[prev.axis] -= prev.score;
+            if (prev) {
+              if (prev.axis) {
+                totals[prev.axis] -= prev.score;
+              }
+              center -= prev.center || 0;
             }
             idx--;
             showQuestion();
@@ -309,18 +319,16 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.appendChild(backBtn);
       }
     } else {
-      const base = questions.length;
-      const adj = {
-        'индивидуализм': totals['индивидуализм'] + base,
-        'абсолютизм': totals['абсолютизм'] + base,
-        'равенство': totals['равенство'] + base
-      };
-      const sum = adj['индивидуализм'] + adj['абсолютизм'] + adj['равенство'];
+      const ind = totals['индивидуализм'];
+      const abs = totals['абсолютизм'];
+      const eq = totals['равенство'];
+      const total = ind + abs + eq + center;
       const resultData = {
-        totals,
-        ind: sum ? (adj['индивидуализм'] / sum * 100) : 0,
-        abs: sum ? (adj['абсолютизм'] / sum * 100) : 0,
-        eq: sum ? (adj['равенство'] / sum * 100) : 0
+        totals: {...totals, center},
+        ind: total ? (ind / total * 100) : 0,
+        abs: total ? (abs / total * 100) : 0,
+        eq: total ? (eq / total * 100) : 0,
+        center: total ? (center / total * 100) : 0
       };
       localStorage.setItem('triangleResult', JSON.stringify(resultData));
       window.location.href = 'result.html';
