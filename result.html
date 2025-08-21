@@ -47,13 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const wI = total ? indVal / total : 0;
   const wA = total ? absVal / total : 0;
   const wE = total ? eqVal / total : 0;
-  const coordX = (Math.sqrt(3) / 2) * (wA - wE);
-  const coordY = wI - 0.5 * (wE + wA);
+  const wC = total ? centerVal / total : 0;
+  const coordX = wI * I.x + wA * A.x + wE * E.x + wC * C.x;
+  const coordY = wI * I.y + wA * A.y + wE * E.y + wC * C.y;
   res.innerHTML += `<br/>Координаты: (${coordX.toFixed(3)}, ${coordY.toFixed(3)})`;
-  const point = total ? {
-    x: (indVal * I.x + absVal * A.x + eqVal * E.x + centerVal * C.x) / total,
-    y: (indVal * I.y + absVal * A.y + eqVal * E.y + centerVal * C.y) / total
-  } : C;
+  const point = { x: coordX, y: coordY };
   function drawTriangleOutline() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = '#000';
