@@ -162,9 +162,9 @@ select option {
 
 .triangle-container {
     position: relative;
-    width: 400px;
-    height: 270px;
-    margin: 130px auto 130px;
+    width: 480px;
+    height: 324px;
+    margin: 180px auto 130px;
 }
 
 .triangle-background {
@@ -175,8 +175,8 @@ select option {
     transform-origin: center;
     border: 2px solid #BBBBBB;
     position: relative;
-    top: -1px;
-    left: -1.6px;
+    top: -2px;
+    left: -2.2px;
 }
 
 .corner-label {
