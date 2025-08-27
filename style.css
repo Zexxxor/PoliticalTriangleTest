@@ -75,6 +75,13 @@ h1, h2 {
     background-color: #1976D2 !important;
 }
 
+/* Изображение под кнопкой "Начать тест" */
+.start-image {
+    display: block;
+    margin: 20px auto;
+    border: 2px solid #BBBBBB;
+}
+
 .back-button {
     background-color: #7C7C7C !important;
 }
