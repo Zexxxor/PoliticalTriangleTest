@@ -76,10 +76,17 @@ h1, h2 {
 }
 
 /* Изображение под кнопкой "Начать тест" */
-.start-image {
-    display: block;
+.start-image-frame {
+    display: none;
     margin: 20px auto;
     border: 2px solid #BBBBBB;
+    overflow: hidden;
+}
+
+.start-image {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 .back-button {
