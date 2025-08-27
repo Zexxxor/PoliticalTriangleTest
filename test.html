@@ -353,8 +353,10 @@ document.addEventListener('DOMContentLoaded', () => {
         eq: total ? (eq / total * 100) : 0,
         center: total ? (center / total * 100) : 0
       };
-      localStorage.setItem('triangleResult', JSON.stringify(resultData));
-      window.location.href = 'result.html';
+      const json = JSON.stringify(resultData);
+      localStorage.setItem('triangleResult', json);
+      const encoded = encodeURIComponent(btoa(unescape(encodeURIComponent(json))));
+      window.location.href = `result.html?data=${encoded}`;
     }
   }
   showQuestion();
