@@ -14,7 +14,10 @@
 <div id="result"></div>
 <div class="triangle-container">
   <img src="Треугольник.png" alt="Треугольник ценностей" class="triangle-background">
-  <canvas id="triangleCanvas" width="400" height="270"></canvas>
+  <svg class="triangle-overlay" viewBox="0 0 400 270">
+    <polygon points="284.942,0 284.942,268 53.116,134" stroke="black" fill="none"/>
+    <circle id="resultPoint" r="5" fill="red" />
+  </svg>
 </div>
 </div>
 <script>
@@ -44,14 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const centerVal = data.center || 0;
   const res = document.getElementById('result');
   res.innerHTML = `Индивидуализм: ${indVal.toFixed(1)}%, Абсолютизм: ${absVal.toFixed(1)}%, Равенство: ${eqVal.toFixed(1)}%, Центр: ${centerVal.toFixed(1)}%`;
-  const canvas = document.getElementById('triangleCanvas');
-  const ctx = canvas.getContext('2d');
+  const svgWidth = 400;
+  const svgHeight = 270;
   const margin = 0;
-  const maxSideByHeight = canvas.height - 2 * margin;
-  const maxSideByWidth = (canvas.width - 2 * margin) * 2 / Math.sqrt(3);
+  const maxSideByHeight = svgHeight - 2 * margin;
+  const maxSideByWidth = (svgWidth - 2 * margin) * 2 / Math.sqrt(3);
   const side = Math.min(maxSideByHeight, maxSideByWidth);
   const height = side * Math.sqrt(3) / 2;
-  const baseX = canvas.width / 2 + height / 3;
+  const baseX = svgWidth / 2 + height / 3;
   const I = {x: baseX, y: margin};
   const A = {x: baseX, y: margin + side};
   const E = {x: baseX - height, y: margin + side / 2};
@@ -64,34 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const coordX = wI * I.x + wA * A.x + wE * E.x + wC * C.x;
   const coordY = wI * I.y + wA * A.y + wE * E.y + wC * C.y;
   res.innerHTML += `<br/>Координаты: (${coordX.toFixed(3)}, ${coordY.toFixed(3)})`;
-  const point = { x: coordX, y: coordY };
-  function drawTriangleOutline() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = '#000';
-    ctx.beginPath();
-    ctx.moveTo(I.x, I.y);
-    ctx.lineTo(E.x, E.y);
-    ctx.lineTo(A.x, A.y);
-    ctx.closePath();
-    ctx.stroke();
-  }
-  function drawPoint() {
-    ctx.fillStyle = 'red';
-    ctx.beginPath();
-    ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  function render() {
-    drawTriangleOutline();
-    drawPoint();
-  }
-  const bg = document.querySelector('.triangle-background');
-  bg.onload = render;
-  bg.onerror = () => {
-    bg.onerror = render;
-    bg.style.transform = 'none';
-    bg.src = 'triangle.svg';
-  };
+  const pointElem = document.getElementById('resultPoint');
+  pointElem.setAttribute('cx', coordX);
+  pointElem.setAttribute('cy', coordY);
 });
 </script>
 </body>
