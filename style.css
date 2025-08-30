@@ -166,7 +166,7 @@ select option {
     width: 100%;
     height: 100%;
     display: block;
-    border: 2px solid #BBBBBB;
+    border: 3px solid #BBBBBB;
     position: relative;
     z-index: 0;
 }
