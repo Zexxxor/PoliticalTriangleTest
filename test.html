@@ -271,13 +271,15 @@ document.addEventListener('DOMContentLoaded', () => {
         axis: opt.dataset.axis,
         score: parseInt(opt.dataset.score, 10)
       }));
-    return { text: qText, options };
+    const max = options.reduce((m, o) => Math.max(m, o.score), 0);
+    return { text: qText, options, max };
   });
   content.querySelectorAll('select, .list-text, #calc, #result').forEach(el => el.remove());
   const quizContainer = document.createElement('div');
   content.appendChild(quizContainer);
-  const totals = {индивидуализм: 0, абсолютизм: 0, равенство: 0};
-  let center = 0;
+  const axisMap = {индивидуализм: 'S_I', абсолютизм: 'S_R', равенство: 'S_L'};
+  const totals = {S_I: 0, S_R: 0, S_L: 0};
+  let S_max = 0;
   const answers = [];
   let idx = 0;
   function showQuestion() {
@@ -297,15 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.className = 'button answer-button';
         btn.textContent = opt.text;
         btn.addEventListener('click', () => {
-          let c = 0;
           if (opt.axis) {
-            totals[opt.axis] += opt.score;
-            if (opt.score === 1) {
-              c = 1;
-            }
+            const key = axisMap[opt.axis];
+            totals[key] += opt.score;
           }
-          center += c;
-          answers.push({axis: opt.axis, score: opt.score, center: c});
+          S_max += q.max;
+          answers.push({axis: opt.axis, score: opt.score, m: q.max});
           idx++;
           showQuestion();
         });
@@ -315,12 +314,12 @@ document.addEventListener('DOMContentLoaded', () => {
       skipBtn.className = 'button answer-button';
       skipBtn.textContent = 'Затрудняюсь ответить';
       skipBtn.addEventListener('click', () => {
-        center += 1;
-        answers.push({axis: '', score: 0, center: 1});
+        S_max += q.max;
+        answers.push({axis: '', score: 0, m: q.max});
         idx++;
         showQuestion();
       });
-    
+
       quizContainer.appendChild(skipBtn);
       if (idx > 0) {
         const backBtn = document.createElement('button');
@@ -331,9 +330,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const prev = answers.pop();
             if (prev) {
               if (prev.axis) {
-                totals[prev.axis] -= prev.score;
+                const key = axisMap[prev.axis];
+                totals[key] -= prev.score;
               }
-              center -= prev.center || 0;
+              S_max -= prev.m;
             }
             idx--;
             showQuestion();
@@ -342,16 +342,11 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.appendChild(backBtn);
       }
     } else {
-      const ind = totals['индивидуализм'];
-      const abs = totals['абсолютизм'];
-      const eq = totals['равенство'];
-      const total = ind + abs + eq + center;
       const resultData = {
-        totals: {...totals, center},
-        ind: total ? (ind / total * 100) : 0,
-        abs: total ? (abs / total * 100) : 0,
-        eq: total ? (eq / total * 100) : 0,
-        center: total ? (center / total * 100) : 0
+        S_L: totals.S_L,
+        S_R: totals.S_R,
+        S_I: totals.S_I,
+        S_max
       };
       const json = JSON.stringify(resultData);
       localStorage.setItem('triangleResult', json);
@@ -360,6 +355,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   showQuestion();
+});
+</script>
+</body>
+</html>
 });
 </script>
 </body>
