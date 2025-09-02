@@ -180,7 +180,7 @@ select option {
     pointer-events: none;
     z-index: 1;
     transform-origin: center;
-    transform: translate(-5px, 4px) scale(0.6);
+    transform: translate(-5.3px, 4px) scale(0.6);
 }
 
 .corner-label {
