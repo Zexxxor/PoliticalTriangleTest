@@ -259,46 +259,76 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const content = document.querySelector('.content-wrapper');
-  const questionElements = Array.from(content.querySelectorAll('select'));
-  const questions = questionElements.map(sel => {
+  const selectEls = Array.from(content.querySelectorAll('select'));
+  const questions = selectEls.map(sel => {
     const textEl = sel.previousElementSibling;
     const qText = textEl.textContent;
-    const options = Array.from(sel.options)
-      .slice(1)
-      .filter(opt => !opt.textContent.includes('Затрудняюсь'))
-      .map(opt => ({
-        text: opt.textContent,
-        axis: opt.dataset.axis,
-        score: parseInt(opt.dataset.score, 10)
+    const options = Array.from(sel.options).slice(1).map(opt => ({
+      text: opt.textContent,
+      axis: opt.dataset.axis,
+      score: parseInt(opt.dataset.score, 10)
+    }));
+    textEl.remove();
+    sel.remove();
+    return { text: qText, options };
+  });
+
+  let current = 0;
+  const answers = [];
+  const questionEl = document.createElement('div');
+  questionEl.className = 'list-text';
+  const answersEl = document.createElement('div');
+  const backBtn = document.createElement('button');
+  backBtn.textContent = 'Назад';
+  backBtn.className = 'button back-button';
+  backBtn.style.display = 'none';
+  backBtn.addEventListener('click', () => {
+    if (current > 0) {
+      current--;
+      renderQuestion();
+    }
+  });
+
+  content.appendChild(questionEl);
+  content.appendChild(answersEl);
+  content.appendChild(backBtn);
+
+  function renderQuestion() {
+    const q = questions[current];
+    questionEl.textContent = q.text;
+    answersEl.innerHTML = '';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'button answer-button';
+      btn.textContent = opt.text;
+      btn.addEventListener('click', () => {
+        answers[current] = { axis: opt.axis, score: opt.score };
+        current++;
+        if (current < questions.length) {
+          renderQuestion();
+        } else {
+          const totals = { равенство: 0, абсолютизм: 0, индивидуализм: 0 };
+          answers.forEach(a => {
+            if (a && a.axis) {
+              totals[a.axis] += a.score;
+            }
+          });
+          const data = {
+            S_L: totals['равенство'] || 0,
+            S_R: totals['абсолютизм'] || 0,
+            S_I: totals['индивидуализм'] || 0
+          };
+          localStorage.setItem('triangleResult', JSON.stringify(data));
+          const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+          window.location.href = `result.html?data=${encoded}`;
+        }
+      });
+      answersEl.appendChild(btn);
+    });
+    backBtn.style.display = current > 0 ? 'block' : 'none';
   }
-  const S_L = data.S_L;
-  const S_R = data.S_R;
-  const S_I = data.S_I;
-  const S_max = 88;
-  const res = document.getElementById('result');
-  const L = Math.round((S_L / S_max * 10) * 100) / 100;
-  const R = Math.round((S_R / S_max * 10) * 100) / 100;
-  const I = Math.round((S_I / S_max * 10) * 100) / 100;
-  const S_tot = S_L + S_R + S_I;
-  let l, i, r;
-  if (S_tot === 0) {
-    l = 0.5;
-    i = 0.5;
-    r = 0;
-  } else {
-    l = S_L / S_tot;
-    i = S_I / S_tot;
-    r = S_R / S_tot;
-  }
-  res.innerHTML = `Равенство: ${L}, Абсолютизм: ${R}, Индивидуализм: ${I}`;
-  const xPrime = 360 - 360 * l + 360 * r;
-  const yPrime = 415.692 + 207.846 * (l + r) - 415.692 * i;
-  const coordX = 0.32198055555555556 * xPrime - 0.18589564709769092 * yPrime + 169.029;
-  const coordY = 0.18611111111111112 * xPrime + 0.3223540505951522 * yPrime - 67.0;
-  res.innerHTML += `<br/>Координаты: (${coordX.toFixed(3)}, ${coordY.toFixed(3)})`;
-  const pointElem = document.getElementById('resultPoint');
-  pointElem.setAttribute('cx', coordX);
-  pointElem.setAttribute('cy', coordY);
+
+  renderQuestion();
 });
 </script>
 </body>
