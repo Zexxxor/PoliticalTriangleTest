@@ -44,15 +44,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const S_L = data.S_L;
   const S_R = data.S_R;
   const S_I = data.S_I;
-  const S_max = data.S_max || (S_L + S_R + S_I);
+  const S_max = 88;
   const res = document.getElementById('result');
-  const L = S_max ? Math.round((S_L / S_max * 10) * 100) / 100 : 0;
-  const R = S_max ? Math.round((S_R / S_max * 10) * 100) / 100 : 0;
-  const I = S_max ? Math.round((S_I / S_max * 10) * 100) / 100 : 0;
-  const l = L / 10;
-  const r = R / 10;
-  const i = I / 10;
-  res.innerHTML = `Равенство: ${(l * 100).toFixed(1)}%, Абсолютизм: ${(r * 100).toFixed(1)}%, Индивидуализм: ${(i * 100).toFixed(1)}%`;
+  const L = Math.round((S_L / S_max * 10) * 100) / 100;
+  const R = Math.round((S_R / S_max * 10) * 100) / 100;
+  const I = Math.round((S_I / S_max * 10) * 100) / 100;
+  const S_tot = S_L + S_R + S_I;
+  let l, i, r;
+  if (S_tot === 0) {
+    l = 0.5;
+    i = 0.5;
+    r = 0;
+  } else {
+    l = S_L / S_tot;
+    i = S_I / S_tot;
+    r = S_R / S_tot;
+  }
+  res.innerHTML = `Равенство: ${L}, Абсолютизм: ${R}, Индивидуализм: ${I}`;
   const xPrime = 360 - 360 * l + 360 * r;
   const yPrime = 415.692 + 207.846 * (l + r) - 415.692 * i;
   const coordX = 0.32198055555555556 * xPrime - 0.18589564709769092 * yPrime + 169.029;
