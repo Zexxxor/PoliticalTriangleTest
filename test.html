@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderQuestion() {
     const q = questions[current];
-    questionEl.textContent = q.text;
+    questionEl.textContent = `Вопрос ${current + 1}/${questions.length}: ${q.text}`;
     answersEl.innerHTML = '';
     q.options.forEach(opt => {
       const btn = document.createElement('button');
