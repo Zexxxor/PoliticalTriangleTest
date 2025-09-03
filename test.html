@@ -270,95 +270,35 @@ document.addEventListener('DOMContentLoaded', () => {
         text: opt.textContent,
         axis: opt.dataset.axis,
         score: parseInt(opt.dataset.score, 10)
-      }));
-    const max = options.reduce((m, o) => Math.max(m, o.score), 0);
-    return { text: qText, options, max };
-  });
-  content.querySelectorAll('select, .list-text, #calc, #result').forEach(el => el.remove());
-  const quizContainer = document.createElement('div');
-  content.appendChild(quizContainer);
-  const axisMap = {индивидуализм: 'S_I', абсолютизм: 'S_R', равенство: 'S_L'};
-  const totals = {S_I: 0, S_R: 0, S_L: 0};
-  let S_max = 0;
-  const answers = [];
-  let idx = 0;
-  function showQuestion() {
-    quizContainer.innerHTML = '';
-    if (idx < questions.length) {
-      const q = questions[idx];
-      const heading = document.createElement('div');
-      heading.className = 'list-heading';
-      heading.textContent = `Вопрос ${idx + 1}`;
-      quizContainer.appendChild(heading);
-      const qText = document.createElement('div');
-      qText.className = 'list-text';
-      qText.textContent = q.text;
-      quizContainer.appendChild(qText);
-      q.options.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'button answer-button';
-        btn.textContent = opt.text;
-        btn.addEventListener('click', () => {
-          if (opt.axis) {
-            const key = axisMap[opt.axis];
-            totals[key] += opt.score;
-          }
-          S_max += q.max;
-          answers.push({axis: opt.axis, score: opt.score, m: q.max});
-          idx++;
-          showQuestion();
-        });
-        quizContainer.appendChild(btn);
-      });
-      const skipBtn = document.createElement('button');
-      skipBtn.className = 'button answer-button';
-      skipBtn.textContent = 'Затрудняюсь ответить';
-      skipBtn.addEventListener('click', () => {
-        S_max += q.max;
-        answers.push({axis: '', score: 0, m: q.max});
-        idx++;
-        showQuestion();
-      });
-
-      quizContainer.appendChild(skipBtn);
-      if (idx > 0) {
-        const backBtn = document.createElement('button');
-        backBtn.className = 'button answer-button back-button';
-        backBtn.textContent = 'Назад';
-        backBtn.addEventListener('click', () => {
-          if (idx > 0) {
-            const prev = answers.pop();
-            if (prev) {
-              if (prev.axis) {
-                const key = axisMap[prev.axis];
-                totals[key] -= prev.score;
-              }
-              S_max -= prev.m;
-            }
-            idx--;
-            showQuestion();
-          }
-        });
-        quizContainer.appendChild(backBtn);
-      }
-    } else {
-      const resultData = {
-        S_L: totals.S_L,
-        S_R: totals.S_R,
-        S_I: totals.S_I,
-        S_max
-      };
-      const json = JSON.stringify(resultData);
-      localStorage.setItem('triangleResult', json);
-      const encoded = encodeURIComponent(btoa(unescape(encodeURIComponent(json))));
-      window.location.href = `result.html?data=${encoded}`;
-    }
   }
-  showQuestion();
-});
-</script>
-</body>
-</html>
+  const S_L = data.S_L;
+  const S_R = data.S_R;
+  const S_I = data.S_I;
+  const S_max = 88;
+  const res = document.getElementById('result');
+  const L = Math.round((S_L / S_max * 10) * 100) / 100;
+  const R = Math.round((S_R / S_max * 10) * 100) / 100;
+  const I = Math.round((S_I / S_max * 10) * 100) / 100;
+  const S_tot = S_L + S_R + S_I;
+  let l, i, r;
+  if (S_tot === 0) {
+    l = 0.5;
+    i = 0.5;
+    r = 0;
+  } else {
+    l = S_L / S_tot;
+    i = S_I / S_tot;
+    r = S_R / S_tot;
+  }
+  res.innerHTML = `Равенство: ${L}, Абсолютизм: ${R}, Индивидуализм: ${I}`;
+  const xPrime = 360 - 360 * l + 360 * r;
+  const yPrime = 415.692 + 207.846 * (l + r) - 415.692 * i;
+  const coordX = 0.32198055555555556 * xPrime - 0.18589564709769092 * yPrime + 169.029;
+  const coordY = 0.18611111111111112 * xPrime + 0.3223540505951522 * yPrime - 67.0;
+  res.innerHTML += `<br/>Координаты: (${coordX.toFixed(3)}, ${coordY.toFixed(3)})`;
+  const pointElem = document.getElementById('resultPoint');
+  pointElem.setAttribute('cx', coordX);
+  pointElem.setAttribute('cy', coordY);
 });
 </script>
 </body>
