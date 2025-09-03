@@ -91,6 +91,8 @@ h1, h2 {
 
 .back-button {
     background-color: #7C7C7C !important;
+    width: 95% !important;
+    margin: 10px auto !important;
 }
 
 .back-button:hover {
