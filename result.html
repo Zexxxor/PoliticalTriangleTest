@@ -41,28 +41,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     data = JSON.parse(dataStr);
   }
-  const S_L = data.S_L;
-  const S_R = data.S_R;
-  const S_I = data.S_I;
-  const S_max = 88;
+  const n_L1 = data.n_L1 || 0;
+  const n_L2 = data.n_L2 || 0;
+  const n_I1 = data.n_I1 || 0;
+  const n_I2 = data.n_I2 || 0;
+  const n_A1 = data.n_A1 || 0;
+  const n_A2 = data.n_A2 || 0;
+  const M_L1 = data.M_L1 || 0;
+  const M_L2 = data.M_L2 || 0;
+  const M_I1 = data.M_I1 || 0;
+  const M_I2 = data.M_I2 || 0;
+  const M_A1 = data.M_A1 || 0;
+  const M_A2 = data.M_A2 || 0;
+  const S_L = 1 * n_L1 + 2 * n_L2;
+  const S_I = 1 * n_I1 + 2 * n_I2;
+  const S_A = 2 * n_A1 + 4 * n_A2;
+  const D_L = 1 * M_L1 + 2 * M_L2;
+  const D_I = 1 * M_I1 + 2 * M_I2;
+  const D_A = 2 * M_A1 + 4 * M_A2;
+  const L = D_L ? S_L / D_L : 0;
+  const I = D_I ? S_I / D_I : 0;
+  const A = D_A ? S_A / D_A : 0;
+  const rem = 1 - (L + I + A);
+  const Lp = L + 0.5 * rem;
+  const Ip = I + 0.5 * rem;
+  const Ap = A;
+  const L10 = Math.round(10 * Lp * 100) / 100;
+  const A10 = Math.round(10 * Ap * 100) / 100;
+  const I10 = Math.round(10 * Ip * 100) / 100;
   const res = document.getElementById('result');
-  const L = Math.round((S_L / S_max * 10) * 100) / 100;
-  const R = Math.round((S_R / S_max * 10) * 100) / 100;
-  const I = Math.round((S_I / S_max * 10) * 100) / 100;
-  const S_tot = S_L + S_R + S_I;
-  let l, i, r;
-  if (S_tot === 0) {
-    l = 0.5;
-    i = 0.5;
-    r = 0;
-  } else {
-    l = S_L / S_tot;
-    i = S_I / S_tot;
-    r = S_R / S_tot;
-  }
-  res.innerHTML = `Равенство: ${L}, Абсолютизм: ${R}, Индивидуализм: ${I}`;
-  const xPrime = 360 - 360 * l + 360 * r;
-  const yPrime = 415.692 + 207.846 * (l + r) - 415.692 * i;
+  res.innerHTML = `Равенство: ${L10}, Абсолютизм: ${A10}, Индивидуализм: ${I10}`;
+  const xPrime = 360 + 360 * (Ap - Lp);
+  const yPrime = 415.692 + 207.846 * (Lp + Ap) - 415.692 * Ip;
   const coordX = 0.32198055555555556 * xPrime - 0.18589564709769092 * yPrime + 169.029;
   const coordY = 0.18611111111111112 * xPrime + 0.3223540505951522 * yPrime - 67.0;
   res.innerHTML += `<br/>Координаты: (${coordX.toFixed(3)}, ${coordY.toFixed(3)})`;
