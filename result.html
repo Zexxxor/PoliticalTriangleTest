@@ -53,24 +53,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const M_I2 = data.M_I2 || 0;
   const M_A1 = data.M_A1 || 0;
   const M_A2 = data.M_A2 || 0;
-  const S_L = 1 * n_L1 + 2 * n_L2;
-  const S_I = 1 * n_I1 + 2 * n_I2;
+  const S_L = 2 * n_L1 + 4 * n_L2;
+  const S_I = 2 * n_I1 + 4 * n_I2;
   const S_A = 2 * n_A1 + 4 * n_A2;
-  const D_L = 1 * M_L1 + 2 * M_L2;
-  const D_I = 1 * M_I1 + 2 * M_I2;
+  const D_L = 2 * M_L1 + 4 * M_L2;
+  const D_I = 2 * M_I1 + 4 * M_I2;
   const D_A = 2 * M_A1 + 4 * M_A2;
   const L = D_L ? S_L / D_L : 0;
   const I = D_I ? S_I / D_I : 0;
   const A = D_A ? S_A / D_A : 0;
-  const rem = 1 - (L + I + A);
-  const Lp = L + 0.5 * rem;
-  const Ip = I + 0.5 * rem;
-  const Ap = A;
-  const L10 = Math.round(10 * Lp * 100) / 100;
-  const A10 = Math.round(10 * Ap * 100) / 100;
-  const I10 = Math.round(10 * Ip * 100) / 100;
+  const L10 = Math.round(10 * L * 100) / 100;
+  const A10 = Math.round(10 * A * 100) / 100;
+  const I10 = Math.round(10 * I * 100) / 100;
   const res = document.getElementById('result');
   res.innerHTML = `Равенство: ${L10}, Абсолютизм: ${A10}, Индивидуализм: ${I10}`;
+  const m = data.D_tot ? (S_L + S_I + S_A) / data.D_tot : 0;
+  let Lp, Ip, Ap;
+  if (L === 0 && I === 0 && A === 0) {
+    Lp = 0.5; Ip = 0.5; Ap = 0;
+  } else {
+    const sum = L + I + A;
+    const vL = L / sum;
+    const vI = I / sum;
+    const vA = A / sum;
+    Lp = (1 - m) * 0.5 + m * vL;
+    Ip = (1 - m) * 0.5 + m * vI;
+    Ap = (1 - m) * 0 + m * vA;
+  }
   const xPrime = 360 + 360 * (Ap - Lp);
   const yPrime = 415.692 + 207.846 * (Lp + Ap) - 415.692 * Ip;
   const coordX = 0.32198055555555556 * xPrime - 0.18589564709769092 * yPrime + 169.029;
