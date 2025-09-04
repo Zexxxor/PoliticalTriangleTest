@@ -276,9 +276,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       return { text: opt.textContent, axis, score };
     });
+    const maxWeight = options.some(o => o.score === 2) ? 4 : 2;
     textEl.remove();
     sel.remove();
-    return { text: qText, options };
+    return { text: qText, options, maxWeight };
   });
 
   let current = 0;
@@ -327,13 +328,15 @@ document.addEventListener('DOMContentLoaded', () => {
               }
             }
           });
+          const D_tot = questions.reduce((sum, q) => sum + q.maxWeight, 0);
           const data = {
             n_L1: totals.L1, n_L2: totals.L2,
             n_I1: totals.I1, n_I2: totals.I2,
             n_A1: totals.A1, n_A2: totals.A2,
             M_L1: available.L1, M_L2: available.L2,
             M_I1: available.I1, M_I2: available.I2,
-            M_A1: available.A1, M_A2: available.A2
+            M_A1: available.A1, M_A2: available.A2,
+            D_tot: D_tot
           };
           localStorage.setItem('triangleResult', JSON.stringify(data));
           const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
