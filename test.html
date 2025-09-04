@@ -260,14 +260,22 @@
 document.addEventListener('DOMContentLoaded', () => {
   const content = document.querySelector('.content-wrapper');
   const selectEls = Array.from(content.querySelectorAll('select'));
+  const available = { L1: 0, L2: 0, I1: 0, I2: 0, A1: 0, A2: 0 };
   const questions = selectEls.map(sel => {
     const textEl = sel.previousElementSibling;
     const qText = textEl.textContent;
-    const options = Array.from(sel.options).slice(1).map(opt => ({
-      text: opt.textContent,
-      axis: opt.dataset.axis,
-      score: parseInt(opt.dataset.score, 10)
-    }));
+    const options = Array.from(sel.options).slice(1).map(opt => {
+      const axis = opt.dataset.axis;
+      const score = parseInt(opt.dataset.score, 10);
+      if (axis === 'равенство') {
+        if (score === 1) available.L1++; else if (score === 2) available.L2++;
+      } else if (axis === 'индивидуализм') {
+        if (score === 1) available.I1++; else if (score === 2) available.I2++;
+      } else if (axis === 'абсолютизм') {
+        if (score === 1) available.A1++; else if (score === 2) available.A2++;
+      }
+      return { text: opt.textContent, axis, score };
+    });
     textEl.remove();
     sel.remove();
     return { text: qText, options };
@@ -307,16 +315,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (current < questions.length) {
           renderQuestion();
         } else {
-          const totals = { равенство: 0, абсолютизм: 0, индивидуализм: 0 };
+          const totals = { L1: 0, L2: 0, I1: 0, I2: 0, A1: 0, A2: 0 };
           answers.forEach(a => {
             if (a && a.axis) {
-              totals[a.axis] += a.score;
+              if (a.axis === 'равенство') {
+                if (a.score === 1) totals.L1++; else if (a.score === 2) totals.L2++;
+              } else if (a.axis === 'индивидуализм') {
+                if (a.score === 1) totals.I1++; else if (a.score === 2) totals.I2++;
+              } else if (a.axis === 'абсолютизм') {
+                if (a.score === 1) totals.A1++; else if (a.score === 2) totals.A2++;
+              }
             }
           });
           const data = {
-            S_L: totals['равенство'] || 0,
-            S_R: totals['абсолютизм'] || 0,
-            S_I: totals['индивидуализм'] || 0
+            n_L1: totals.L1, n_L2: totals.L2,
+            n_I1: totals.I1, n_I2: totals.I2,
+            n_A1: totals.A1, n_A2: totals.A2,
+            M_L1: available.L1, M_L2: available.L2,
+            M_I1: available.I1, M_I2: available.I2,
+            M_A1: available.A1, M_A2: available.A2
           };
           localStorage.setItem('triangleResult', JSON.stringify(data));
           const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
