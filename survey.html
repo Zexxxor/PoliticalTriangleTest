@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<link href="./style.css" rel="stylesheet" type="text/css">
+<title>Дополнительные вопросы</title>
+<link rel="icon" type="x-icon" href="icon.png">
+<link rel="shortcut icon" type="x-icon" href="icon.png">
+</head>
+<body>
+<div class="content-wrapper">
+  <form id="surveyForm">
+    <div class="list-text">Ваш биологический пол</div>
+    <select name="sex" required>
+      <option value="">Выберите вариант</option>
+      <option>Мужской</option>
+      <option>Женский</option>
+      <option>Предпочитаю не указывать</option>
+    </select>
+
+    <div class="list-text">Ваш гендер</div>
+    <select name="gender" required>
+      <option value="">Выберите вариант</option>
+      <option>Мужской</option>
+      <option>Женский</option>
+      <option>Другой/Небинарный</option>
+      <option>Предпочитаю не указывать</option>
+    </select>
+
+    <div class="list-text">Ваш возраст</div>
+    <select name="age" required>
+      <option value="">Выберите вариант</option>
+      <option>Менее 16 лет</option>
+      <option>16-19 лет</option>
+      <option>20-29 лет</option>
+      <option>30-39 лет</option>
+      <option>40-49 лет</option>
+      <option>50-59 лет</option>
+      <option>60-69 лет</option>
+      <option>70 и более лет</option>
+    </select>
+
+    <div class="list-text">Ваше образование</div>
+    <select name="education" required>
+      <option value="">Выберите вариант</option>
+      <option>Нет образования</option>
+      <option>Начальное</option>
+      <option>Неполное среднее</option>
+      <option>Полное среднее</option>
+      <option>Среднее профессиональное</option>
+      <option>Незаконченное высшее (учусь)</option>
+      <option>Высшее (бакалавриат/специалист)</option>
+      <option>Магистратура/аспирантура</option>
+    </select>
+
+    <div class="list-text">Ваш доход</div>
+    <select name="income" required>
+      <option value="">Выберите вариант</option>
+      <option>Хватает только на еду и предметы первой необходимости</option>
+      <option>Хватает на еду, предметы первой необходимости и иногда бытовую технику</option>
+      <option>Хватает на регулярные покупки бытовой техники и недорогие поездки внутри страны</option>
+      <option>Хватает на регулярные поездки за границу и досуг (рестораны, развлечения, хобби)</option>
+      <option>Хватает на авто с обновлением каждые 5–7 лет</option>
+      <option>Хватает на авто каждые 3–4 года и приобретение недвижимости без ипотеки</option>
+      <option>Хватает на несколько объектов недвижимости, предметы роскоши и инвестиции</option>
+    </select>
+
+    <div class="list-text">Ваше семейное положение</div>
+    <select name="family" required>
+      <option value="">Выберите вариант</option>
+      <option>Не женат/не замужем, детей нет</option>
+      <option>Не женат/не замужем, есть дети</option>
+      <option>В браке, детей нет</option>
+      <option>В браке, есть дети</option>
+    </select>
+
+    <div class="list-text">Ваша страна (полное официальное название)</div>
+    <input type="text" name="country" required>
+
+    <div class="list-text">Ваш регион (полное официальное название)</div>
+    <input type="text" name="region" required>
+
+    <div class="list-text">Ваши политические взгляды по классическому политическому компасу (или просто ваши взгляды)</div>
+    <select name="views" required>
+      <option value="">Выберите вариант</option>
+      <option>Анархо-капитализм</option>
+      <option>Классический либерализм (джефферсонизм)</option>
+      <option>Неолиберализм</option>
+      <option>Право-центризм</option>
+      <option>Консерватизм</option>
+      <option>Реакционизм</option>
+      <option>Абсолютизм</option>
+      <option>Сталинизм</option>
+      <option>Марксизм-ленинизм</option>
+      <option>Социализм</option>
+      <option>Лево-центризм</option>
+      <option>Социал-демократия</option>
+      <option>Либертарианский социализм (зелёные)</option>
+      <option>Анархо-коммунизм</option>
+      <option>Центризм</option>
+      <option>Фашизм/Национал-социализм</option>
+      <option>Неоконсерватизм</option>
+      <option>Анархизм</option>
+      <option>Троцкизм</option>
+    </select>
+
+    <button type="submit" class="button">Отправить результаты</button>
+  </form>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const dataParam = params.get('data') || '';
+  const webhookUrl = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+  const form = document.getElementById('surveyForm');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(form));
+    formData.answers_json = localStorage.getItem('triangleResult');
+    try {
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+    } catch (err) {
+      // ignore errors
+    } finally {
+      window.location.href = `result.html?data=${encodeURIComponent(dataParam)}`;
+    }
+  });
+});
+</script>
+</body>
+</html>
