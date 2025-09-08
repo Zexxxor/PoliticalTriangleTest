@@ -166,11 +166,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const coordX = 0.32198055555555556 * xPrime - 0.18589564709769092 * yPrime + 169.029;
     const coordY = 0.18611111111111112 * xPrime + 0.3223540505951522 * yPrime - 67.0;
 
-    const payload = { answers: data.answers, score: { x: coordX, y: coordY }, ...formData };
+    const payload = {
+      date: new Date().toISOString(),
+      coordX: coordX,
+      coordY: coordY,
+      ...formData
+    };
     try {
       await fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        mode: 'no-cors',
         body: JSON.stringify(payload)
       });
     } catch (err) {
