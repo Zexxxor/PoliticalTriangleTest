@@ -114,8 +114,6 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-  const dataParam = params.get('data') || '';
   const webhookUrl = 'https://script.google.com/macros/s/AKfycbxnm46a8iI0p8NuQlnZqw0GsVP272jnAuB0KAaqMMuXq2-pG_eaPqfIj2RKTXm9847TPg/exec';
   const form = document.getElementById('surveyForm');
   form.addEventListener('submit', async (e) => {
@@ -178,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       // ignore errors
     } finally {
-      window.location.href = `result.html?data=${encodeURIComponent(dataParam)}`;
+      window.location.href = 'result.html';
     }
   });
 });
