@@ -400,7 +400,12 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.className = 'button answer-button';
       btn.textContent = opt.text;
       btn.addEventListener('click', () => {
-        answers[current] = { axis: opt.axis, score: opt.score };
+        answers[current] = {
+          question: q.text,
+          answer: opt.text,
+          axis: opt.axis,
+          score: opt.score
+        };
         current++;
         if (current < questions.length) {
           renderQuestion();
@@ -425,7 +430,8 @@ document.addEventListener('DOMContentLoaded', () => {
             M_L1: available.L1, M_L2: available.L2,
             M_I1: available.I1, M_I2: available.I2,
             M_A1: available.A1, M_A2: available.A2,
-            D_tot: D_tot
+            D_tot: D_tot,
+            answers: answers
           };
           localStorage.setItem('triangleResult', JSON.stringify(data));
           const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
