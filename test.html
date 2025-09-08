@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
           };
           localStorage.setItem('triangleResult', JSON.stringify(data));
           const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-          window.location.href = `result.html?data=${encoded}`;
+          window.location.href = `consent.html?data=${encoded}`;
         }
       });
       answersEl.appendChild(btn);
