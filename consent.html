@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<link href="./style.css" rel="stylesheet" type="text/css">
+<title>Опрос согласия</title>
+<link rel="icon" type="x-icon" href="icon.png">
+<link rel="shortcut icon" type="x-icon" href="icon.png">
+</head>
+<body>
+  <div class="content-wrapper">
+    <div class="list-text">Согласны ли поучаствовать в анонимном сборе статистики результатов? Вам будет представлено 8 дополнительных вопросов о вашем статусе</div>
+    <button class="button agree-button" id="agreeBtn">Согласен(-на)</button>
+    <button class="button disagree-button" id="disagreeBtn">Несогласен(-на)</button>
+  </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const data = params.get('data') || '';
+  document.getElementById('agreeBtn').addEventListener('click', () => {
+    window.location.href = `survey.html?data=${encodeURIComponent(data)}`;
+  });
+  document.getElementById('disagreeBtn').addEventListener('click', () => {
+    window.location.href = `result.html?data=${encodeURIComponent(data)}`;
+  });
+});
+</script>
+</body>
+</html>
