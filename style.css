@@ -75,22 +75,6 @@ h1, h2 {
     background-color: #1976D2 !important;
 }
 
-.agree-button {
-    background-color: #4CAF50 !important;
-}
-
-.agree-button:hover {
-    background-color: #29942E !important;
-}
-
-.disagree-button {
-    background-color: #F44336 !important;
-}
-
-.disagree-button:hover {
-    background-color: #D6271A !important;
-}
-
 /* Изображение под кнопкой "Начать тест" */
 .start-image-frame {
     display: none;
@@ -116,7 +100,19 @@ h1, h2 {
 }
 
 .answer-button {
-@@ -116,50 +132,58 @@ h1, h2 {
+    width: 95% !important;
+    margin: 10px auto !important;
+}
+
+/* Описание ценностей */
+.value-description {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.value-description .value-axis {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
     gap: 10px;
     font-size: 32px;
@@ -140,14 +136,6 @@ select {
     display: block;
     margin: 10px auto;
     font-family: 'Futura Cyrillic Light', sans-serif;
-}
-
-input[type="text"] {
-    width: 95%;
-    display: block;
-    margin: 10px auto;
-    font-family: 'Futura Cyrillic Light', sans-serif;
-    padding: 8px;
 }
 
 select option {
