@@ -38,6 +38,7 @@
       <option>50-59 лет</option>
       <option>60-69 лет</option>
       <option>70 и более лет</option>
+      <option>Предпочитаю не указывать</option>
     </select>
 
     <div class="list-text">Ваше образование</div>
@@ -51,6 +52,7 @@
       <option>Незаконченное высшее (учусь)</option>
       <option>Высшее (бакалавриат/специалист)</option>
       <option>Магистратура/аспирантура</option>
+      <option>Предпочитаю не указывать</option>
     </select>
 
     <div class="list-text">Ваш доход</div>
@@ -63,6 +65,7 @@
       <option>Хватает на авто с обновлением каждые 5–7 лет</option>
       <option>Хватает на авто каждые 3–4 года и приобретение недвижимости без ипотеки</option>
       <option>Хватает на несколько объектов недвижимости, предметы роскоши и инвестиции</option>
+      <option>Предпочитаю не указывать</option>
     </select>
 
     <div class="list-text">Ваше семейное положение</div>
@@ -72,6 +75,7 @@
       <option>Не женат/не замужем, есть дети</option>
       <option>В браке, детей нет</option>
       <option>В браке, есть дети</option>
+      <option>Предпочитаю не указывать</option>
     </select>
 
     <div class="list-text">Ваша страна (полное официальное название)</div>
@@ -102,6 +106,7 @@
       <option>Неоконсерватизм</option>
       <option>Анархизм</option>
       <option>Троцкизм</option>
+      <option>Предпочитаю не указывать</option>
     </select>
 
     <button type="submit" class="button">Отправить результаты</button>
@@ -111,7 +116,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const dataParam = params.get('data') || '';
-  const webhookUrl = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+  const webhookUrl = 'https://script.google.com/macros/s/AKfycbyuGWp9LrG3RJ7S55lRYF4gxF7eIohXezV3WXg_4AM8RufK3xXtFiP3NLagDF2yIJmQ4w/exec';
   const form = document.getElementById('surveyForm');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
