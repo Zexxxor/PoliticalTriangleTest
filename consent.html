@@ -17,13 +17,11 @@
   </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-  const data = params.get('data') || '';
   document.getElementById('agreeBtn').addEventListener('click', () => {
-    window.location.href = `survey.html?data=${encodeURIComponent(data)}`;
+    window.location.href = 'survey.html';
   });
   document.getElementById('disagreeBtn').addEventListener('click', () => {
-    window.location.href = `result.html?data=${encodeURIComponent(data)}`;
+    window.location.href = 'result.html';
   });
 });
 </script>
