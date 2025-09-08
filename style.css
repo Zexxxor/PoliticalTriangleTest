@@ -197,4 +197,35 @@ select option {
     height: auto;
     display: block;
     margin: 0 auto 4px auto;
+    
+}
+.consent-buttons {
+    width: 95%;
+    margin: 20px auto;
+    display: flex;
+    gap: 20px;
+}
+
+.consent-buttons .button {
+    flex: 1;
+    margin: 0 !important;
+}
+
+.agree-button {
+    background-color: #4CAF50 !important;
+    font-family: 'Futura Cyrillic Light', sans-serif !important;
+}
+
+
+.agree-button:hover {
+    background-color: #29942E !important;
+}
+
+.disagree-button {
+    background-color: #F44336 !important;
+    font-family: 'Futura Cyrillic Light', sans-serif !important;
+}
+
+.disagree-button:hover {
+    background-color: #D6271A !important;
 }
