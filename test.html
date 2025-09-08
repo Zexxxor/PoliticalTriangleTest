@@ -332,7 +332,7 @@
     <option data-axis="равенство" data-score="1">Международная торговля допустима только при условии справедливых правил: защита рабочих мест, соблюдение трудовых стандартов и ограничение власти транснациональных корпораций.</option>
     <option data-axis="" data-score="0">Затрудняюсь ответить</option>
     </select>
-  
+
       <div class="list-text">Государственная слежка и безопасность</div>
     <select>
     <option data-axis="" data-score="0">Выберите вариант ответа</option>
@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
           };
           localStorage.setItem('triangleResult', JSON.stringify(data));
           const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-          window.location.href = `consent.html?data=${encoded}`;
+          window.location.href = `result.html?data=${encoded}`;
         }
       });
       answersEl.appendChild(btn);
