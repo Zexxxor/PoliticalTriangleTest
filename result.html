@@ -22,24 +22,30 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-  const paramData = params.get('data');
   let data;
-  if (paramData) {
+  const dataStr = localStorage.getItem('triangleResult');
+  if (dataStr) {
     try {
-      const jsonStr = decodeURIComponent(escape(atob(paramData)));
-      data = JSON.parse(jsonStr);
+      data = JSON.parse(dataStr);
     } catch (e) {
-      console.error('Failed to decode data parameter', e);
+      data = null;
     }
   }
   if (!data) {
-    const dataStr = localStorage.getItem('triangleResult');
-    if (!dataStr) {
-      document.getElementById('result').textContent = 'Нет данных для отображения.';
-      return;
+    const params = new URLSearchParams(window.location.search);
+    const paramData = params.get('data');
+    if (paramData) {
+      try {
+        const jsonStr = decodeURIComponent(escape(atob(paramData)));
+        data = JSON.parse(jsonStr);
+      } catch (e) {
+        console.error('Failed to decode data parameter', e);
+      }
     }
-    data = JSON.parse(dataStr);
+  }
+  if (!data) {
+    document.getElementById('result').textContent = 'Нет данных для отображения.';
+    return;
   }
   const n_L1 = data.n_L1 || 0;
   const n_L2 = data.n_L2 || 0;
