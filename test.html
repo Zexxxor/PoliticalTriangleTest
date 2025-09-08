@@ -434,8 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
             answers: answers
           };
           localStorage.setItem('triangleResult', JSON.stringify(data));
-          const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-          window.location.href = `consent.html?data=${encoded}`;
+          window.location.href = 'consent.html';
         }
       });
       answersEl.appendChild(btn);
