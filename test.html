@@ -347,6 +347,7 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  const webhookUrl = 'https://script.google.com/macros/s/AKfycbwP-9LK2zHVrkDdoZ2HVD5fqwq0hwlA7Fr4AsjpQsYNm9UGsb9zRycMDp3qFjm2jaBBPA/exec';
   const content = document.querySelector('.content-wrapper');
   const selectEls = Array.from(content.querySelectorAll('select'));
   const available = { L1: 0, L2: 0, I1: 0, I2: 0, A1: 0, A2: 0 };
@@ -434,7 +435,63 @@ document.addEventListener('DOMContentLoaded', () => {
             answers: answers
           };
           localStorage.setItem('triangleResult', JSON.stringify(data));
-          window.location.href = 'consent.html';
+          const n_L1 = data.n_L1 || 0;
+          const n_L2 = data.n_L2 || 0;
+          const n_I1 = data.n_I1 || 0;
+          const n_I2 = data.n_I2 || 0;
+          const n_A1 = data.n_A1 || 0;
+          const n_A2 = data.n_A2 || 0;
+          const M_L1 = data.M_L1 || 0;
+          const M_L2 = data.M_L2 || 0;
+          const M_I1 = data.M_I1 || 0;
+          const M_I2 = data.M_I2 || 0;
+          const M_A1 = data.M_A1 || 0;
+          const M_A2 = data.M_A2 || 0;
+          const S_L = 2 * n_L1 + 4 * n_L2;
+          const S_I = 2 * n_I1 + 4 * n_I2;
+          const S_A = 2 * n_A1 + 4 * n_A2;
+          const D_L = 2 * M_L1 + 4 * M_L2;
+          const D_I = 2 * M_I1 + 4 * M_I2;
+          const D_A = 2 * M_A1 + 4 * M_A2;
+          const L = D_L ? S_L / D_L : 0;
+          const I = D_I ? S_I / D_I : 0;
+          const A = D_A ? S_A / D_A : 0;
+          const m = data.D_tot ? (S_L + S_I + S_A) / data.D_tot : 0;
+          let Lp, Ip, Ap;
+          if (L === 0 && I === 0 && A === 0) {
+            Lp = 0.5; Ip = 0.5; Ap = 0;
+          } else {
+            const sum = L + I + A;
+            const vL = L / sum;
+            const vI = I / sum;
+            const vA = A / sum;
+            Lp = (1 - m) * 0.5 + m * vL;
+            Ip = (1 - m) * 0.5 + m * vI;
+            Ap = (1 - m) * 0 + m * vA;
+          }
+          const xPrime = 360 + 360 * (Ap - Lp);
+          const yPrime = 415.692 + 207.846 * (Lp + Ap) - 415.692 * Ip;
+          const coordX = 0.32198055555555556 * xPrime - 0.18589564709769092 * yPrime + 169.029;
+          const coordY = 0.18611111111111112 * xPrime + 0.3223540505951522 * yPrime - 67.0;
+          let surveyData = {};
+          try {
+            surveyData = JSON.parse(localStorage.getItem('surveyData')) || {};
+          } catch (e) {
+            surveyData = {};
+          }
+          const payload = {
+            date: new Date().toISOString(),
+            coordX: coordX,
+            coordY: coordY,
+            ...surveyData
+          };
+          fetch(webhookUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify(payload)
+          }).finally(() => {
+            window.location.href = 'result.html';
+          });
         }
       });
       answersEl.appendChild(btn);
