@@ -9,20 +9,14 @@
 </head>
 <body>
   <div class="content-wrapper">
-    <div class="list-text">Согласны ли вы поучаствовать в анонимном сборе статистики результатов, которые будут опубликованы позже? Вам будет представлено 9 дополнительных вопросов о вашем социальном статусе</div>
-    <div class="consent-buttons">
-    <button class="button agree-button" id="agreeBtn">Согласен(-на)</button>
-        <button class="button disagree-button" id="disagreeBtn">Несогласен(-на)</button>
-    </div>
+    <div class="list-text">Для участия в тесте требуется заполнить анкету о вашем социальном статусе. Ответы остаются полностью анонимными. Впоследствии будет опубликована статистика других участников</div>
+    <button class="button agree-button" id="agreeBtn">Согласен</button>
   </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('agreeBtn').addEventListener('click', () => {
-    window.location.href = 'survey.html';
-  });
-  document.getElementById('disagreeBtn').addEventListener('click', () => {
-    window.location.href = 'result.html';
-  });
+document.getElementById('agreeBtn').addEventListener('click', () => {
+  window.location.href = 'survey.html';
+});
 });
 </script>
 </body>
