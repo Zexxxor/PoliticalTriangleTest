@@ -39,6 +39,13 @@ body {
     box-sizing: border-box;
 }
 
+.consent-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Заголовки */
 h1, h2 {
     text-align: center;
@@ -72,11 +79,14 @@ h1, h2 {
     font-family: 'Futura Cyrillic Light', sans-serif !important;
 }
 
+.agree-button {
+    padding: 20px 80px !important;
+}
+
 .start-button:hover,
 .button:hover {
     background-color: #1976D2 !important;
 }
-
 /* Изображение под кнопкой "Начать тест" */
 .start-image-frame {
     display: none;
