@@ -35,6 +35,8 @@ body {
     border-top: none;
     border-bottom: none;
     text-align: center;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 /* Заголовки */
