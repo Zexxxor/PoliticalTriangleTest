@@ -98,9 +98,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const coordX = 0.32198055555555556 * xPrime - 0.18589564709769092 * yPrime + 169.029;
   const coordY = 0.18611111111111112 * xPrime + 0.3223540505951522 * yPrime - 67.0;
   res.innerHTML += `<br/>Координаты: (${coordX.toFixed(3)}, ${coordY.toFixed(3)})`;
-  const pointElem = document.getElementById('resultPoint');
-  pointElem.setAttribute('cx', coordX);
-  pointElem.setAttribute('cy', coordY);
+  function setPointCoordinates(pointId) {
+    const pointElem = document.getElementById(pointId);
+    if (!pointElem) return;
+    pointElem.setAttribute('cx', coordX);
+    pointElem.setAttribute('cy', coordY);
+  }
+
+  setPointCoordinates('resultPoint');
+  setPointCoordinates('resultPointDuplicate');
 });
 </script>
 </body>
